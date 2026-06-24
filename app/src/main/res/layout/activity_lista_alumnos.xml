@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    tools:context=".ListaAlumnosActivity"
+    tools:ignore="HardcodedText,ContentDescription">
+
+    <ImageView
+        android:id="@+id/btnAtrasListaAlumnos"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:src="@android:drawable/ic_menu_revert"
+        android:rotation="180"
+        app:tint="#E65100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTituloListaAlumnos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LISTA DE ALUMNOS"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnAtrasListaAlumnos"
+        app:layout_constraintStart_toEndOf="@id/btnAtrasListaAlumnos"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/btnAtrasListaAlumnos" />
+
+    <LinearLayout
+        android:id="@+id/layoutFiltros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloListaAlumnos">
+
+        <EditText
+            android:id="@+id/edtBuscarAlumno"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#1B1E36"
+            android:hint="Buscar alumno por nombre o apellido..."
+            android:textColorHint="#8A8A9E"
+            android:textColor="#FFFFFF"
+            android:paddingHorizontal="16dp"
+            android:textSize="14sp"
+            android:inputType="textPersonName"
+            android:maxLines="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="2">
+
+            <Spinner
+                android:id="@+id/spinnerCarrera"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:background="#1B1E36"
+                android:layout_marginEnd="5dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerCiclo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:background="#1B1E36"
+                android:layout_marginStart="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutContadoresAlumnos"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        android:background="#1B1E36"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@id/layoutFiltros">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:drawable/ic_menu_mylocation"
+                app:tint="#7FFF00"/>
+            <TextView
+                android:id="@+id/txtTotalAlumnosContador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="TOTAL DE ALUMNOS\n--"
+                android:textColor="#FFFFFF"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="#3B405E"/>
+
+        <TextView
+            android:id="@+id/txtAlumnosActivosContador"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="ACTIVOS\n--"
+            android:textColor="#7FFF00"
+            android:textSize="10sp"
+            android:textStyle="bold"/>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="#3B405E"/>
+
+        <TextView
+            android:id="@+id/txtAlumnosInactivosContador"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="INACTIVOS\n--"
+            android:textColor="#FF4D4D"
+            android:textSize="10sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutCabeceraTabla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutContadoresAlumnos">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="N°"
+            android:textColor="#8A8A9E"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Datos del Alumno"
+            android:textColor="#8A8A9E"
+            android:textSize="11sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Detalles"
+            android:textColor="#8A8A9E"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerAlumnos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutPaginacion"
+        app:layout_constraintTop_toBottomOf="@id/layoutCabeceraTabla"
+        tools:listitem="@layout/item_alumno_tabla"/>
+
+    <LinearLayout
+        android:id="@+id/layoutPaginacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EXPORTAR LISTA"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#3B405E"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

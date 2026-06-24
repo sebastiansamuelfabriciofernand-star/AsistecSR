@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    tools:context=".PerfilDocenteActivity"
+    tools:ignore="HardcodedText,ContentDescription,ImageContrastCheck">
+
+    <ImageView
+        android:id="@+id/btnAtrasPerfilDocente"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="#E65100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTituloPerfilDocente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PERFIL DEL DOCENTE"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnAtrasPerfilDocente"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAtrasPerfilDocente" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloPerfilDocente">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgFotoPerfilDocente"
+                        android:layout_width="110dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/fondo_btn_estudiante"
+                        android:backgroundTint="#070714"
+                        android:padding="16dp"
+                        android:src="@android:drawable/ic_menu_report_image"
+                        app:tint="#E65100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/fondo_barra"
+                    android:backgroundTint="#3B405E"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/txtNombreDocente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre Docente"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/txtPerfilNumero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NUMERO: "
+                        android:textColor="#CFD2E2"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:id="@+id/txtPerfilCorreoInst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CORREO INST: "
+                        android:textColor="#CFD2E2"
+                        android:textSize="11sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/txtPerfilCorreoPersonal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CORREO PERS: "
+                        android:textColor="#CFD2E2"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/fondo_btn_administrador"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Escanear QR"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Escanea el código del estudiante para registrar su asistencia"
+                        android:textColor="#8A8A9E"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnIniciarEscaner"
+                        android:layout_width="160dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#0D47A1"
+                        android:drawableStart="@android:drawable/ic_menu_camera"
+                        android:drawableTint="#FFFFFF"
+                        android:paddingStart="12dp"
+                        android:text="Iniciar escáner"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.8"
+                    android:src="@android:drawable/ic_menu_crop"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/fondo_barra"
+                android:backgroundTint="#25283D"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RESUMEN DE ASISTENCIAS:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#7FFF00" android:orientation="vertical" android:gravity="center" android:padding="6dp" android:layout_marginEnd="4dp">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/ic_menu_myplaces" app:tint="#000000"/>
+                        <TextView android:id="@+id/txtAlumnosTotales" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="2dp"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TOTALES" android:textColor="#000000" android:textSize="8sp" android:gravity="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#7FFF00" android:orientation="vertical" android:gravity="center" android:padding="6dp" android:layout_marginHorizontal="2dp">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/checkbox_on_background" app:tint="#000000"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0\nPRESENTES" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#7FFF00" android:orientation="vertical" android:gravity="center" android:padding="6dp" android:layout_marginHorizontal="2dp">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/ic_delete" app:tint="#000000"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0\nFALTANTES" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#7FFF00" android:orientation="vertical" android:gravity="center" android:padding="6dp" android:layout_marginStart="4dp">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/ic_dialog_alert" app:tint="#000000"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0\nCON PERMISO" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:weightSum="4">
+                    <View android:layout_width="0dp" android:layout_height="20dp" android:layout_weight="1" android:background="#FFCA28" android:layout_marginHorizontal="3dp"/>
+                    <View android:layout_width="0dp" android:layout_height="140dp" android:layout_weight="1" android:background="#FFCA28" android:layout_marginHorizontal="3dp"/>
+                    <View android:layout_width="0dp" android:layout_height="10dp" android:layout_weight="1" android:background="#FFCA28" android:layout_marginHorizontal="3dp"/>
+                    <View android:layout_width="0dp" android:layout_height="10dp" android:layout_weight="1" android:background="#FFCA28" android:layout_marginHorizontal="3dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="24dp">
+
+                    <LinearLayout
+                        android:id="@+id/btnContenedorListaAlumnos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#7A2021"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LISTA DE ALUMNOS"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="4dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="#E65100" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <LinearLayout
+                        android:id="@+id/btnContenedorListaAsistencias"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#A61C1C"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LISTA DE ASISTENCIAS"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="4dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="#E65100" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

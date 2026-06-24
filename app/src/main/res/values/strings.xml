@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AsisteCSR</string>
+
+    <string name="titulo_lista_asistencia">LISTA DE ASISTENCIA</string>
+    <string name="etiqueta_filtros">FILTROS:</string>
+    <string name="btn_lista_alumnos">LISTA DE ALUMNOS</string>
+
+    <string-array name="opciones_turno">
+        <item>TODOS</item>
+        <item>DIURNO</item>
+        <item>NOCTURNO</item>
+    </string-array>
+
+    <string-array name="opciones_ciclo">
+        <item>TODOS</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+</resources>

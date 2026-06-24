@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AsisteCSR" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/fondo_oscuro</item>
+        <item name="colorPrimaryDark">@color/fondo_oscuro</item>
+        <item name="colorAccent">@color/verde_neon</item>
+    </style>
+
+    <style name="TarjetaAsistenciaStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">135dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardBackgroundColor">#221F42</item>
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="ContenedorTarjetaStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="TextoTarjetaStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="IconoTarjetaStyle">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+</resources>

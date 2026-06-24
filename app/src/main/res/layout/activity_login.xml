@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0B1A"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/imgLoginLogo"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo_salazar_romero"
+        android:contentDescription="Logo Institucional"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtRolSeleccionado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/imgLoginLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="ADMINISTRADOR" />
+
+    <TextView
+        android:id="@+id/txtAccesoHerramientas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Acceso a código y herramientas"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/txtRolSeleccionado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/rowIconos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/txtAccesoHerramientas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/indProfesor"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#2C2C35"
+            android:padding="12dp"
+            android:src="@android:drawable/ic_menu_slideshow"
+            app:tint="#808080" />
+
+        <ImageView
+            android:id="@+id/indEstudiante"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#2C2C35"
+            android:padding="12dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            app:tint="#808080" />
+
+        <ImageView
+            android:id="@+id/indAdministrador"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#2C2C35"
+            android:padding="12dp"
+            android:src="@android:drawable/ic_menu_mapmode"
+            app:tint="#808080" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divisoriaLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="32dp"
+        app:layout_constraintTop_toBottomOf="@id/rowIconos">
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:background="#40FFFFFF"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginHorizontal="8dp"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            app:tint="#D84337"/>
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:background="#40FFFFFF"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lblIniciarSesionTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="INICIAR SESIÓN"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/divisoriaLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="40dp"
+        app:hintEnabled="false"
+        app:layout_constraintTop_toBottomOf="@id/lblIniciarSesionTitulo">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#232233"
+            android:hint="ejm: profesor@gmial.com"
+            android:textColorHint="#707080"
+            android:textColor="#FFFFFF"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:drawableEnd="@android:drawable/ic_menu_edit"
+            android:drawableTint="#D84337"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutClave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="40dp"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#D84337"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutUsuario">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#232233"
+            android:hint="contraseña(maximo 6 dijitos)"
+            android:textColorHint="#707080"
+            android:textColor="#FFFFFF"
+            android:inputType="textPassword"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/txtOlvidaste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:text="Olvidaste tu contraseña?"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutClave"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegisterEnviar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="60dp"
+        android:text="REGISTRARSE"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/fondo_btn_administrador"
+        app:layout_constraintTop_toBottomOf="@id/txtOlvidaste" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLoginEnviar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="60dp"
+        android:text="INICIAR SESIÓN"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/fondo_btn_administrador"
+        app:layout_constraintTop_toBottomOf="@id/btnRegisterEnviar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Todos los accesos estan protegidos"
+        android:textColor="#A0A0B0"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

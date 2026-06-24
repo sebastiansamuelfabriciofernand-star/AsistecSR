@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp">
+
+        <ImageView
+            android:id="@+id/btnRegProfesorVolver"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Volver" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="REGISTRO DE DOCENTE"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre Completo"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorNombre"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="Ej. Juan Pérez Celis"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Especialidad / Curso"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorEspecialidad"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="Ej. Ingeniería de Software"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Número Telefónico"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorNumero"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="Ej. 987654321"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="phone"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correo Personal (Profesor)"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorEmail"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="ejemplo@gmail.com"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correo Institucional (Colegio)"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorEmailInst"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="profesor@colegio.edu.pe"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contraseña de la Cuenta"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/edtProfesorPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#1C1C2E"
+                android:hint="Mínimo 6 caracteres"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textPassword"
+                android:layout_marginBottom="30dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnProfesorCrearCuenta"
+                android:layout_width="240dp"
+                android:layout_height="50dp"
+                android:background="@drawable/fondo_btn_volver"
+                android:text="REGISTRAR DOCENTE"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

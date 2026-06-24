@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    tools:context=".ListaAsistenciasActivity"
+    tools:ignore="HardcodedText,ContentDescription">
+
+    <ImageView
+        android:id="@+id/btnAtrasAsistencias"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="#E65100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTituloAsistencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LISTA DE ASISTENCIA"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnAtrasAsistencias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAtrasAsistencias" />
+
+    <TextView
+        android:id="@+id/txtFechaSeleccionada"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/fondo_barra"
+        android:backgroundTint="#25283D"
+        android:padding="14dp"
+        android:text="📅 Presiona aquí para cambiar de fecha"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAtrasAsistencias" />
+
+    <LinearLayout
+        android:id="@+id/layoutCabeceraTabla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:background="#121324"
+        app:layout_constraintTop_toBottomOf="@id/txtFechaSeleccionada">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:textColor="#8A8A9E"
+            android:textSize="13sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:layout_marginStart="52dp"
+            android:text="Alumno"
+            android:textColor="#8A8A9E"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Clase"
+            android:textColor="#8A8A9E"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Asistencia"
+            android:textColor="#8A8A9E"
+            android:textSize="13sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListaAsistencias"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutCabeceraTabla"
+        tools:listitem="@layout/item_alumno_asistencia" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

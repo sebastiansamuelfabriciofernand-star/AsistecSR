@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0B1A"
+    tools:context=".ForgotActivity">
+
+    <TextView
+        android:id="@+id/txtForgotTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="ASISTENCIAS-DSI"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgForgotLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/logo_salazar_romero"
+        android:contentDescription="Logo DSI"
+        app:layout_constraintTop_toBottomOf="@id/txtForgotTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutHeaderForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/imgForgotLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            android:contentDescription="Icono seguridad"
+            app:tint="#FF4D4D" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="¿OLVIDASTE TU\nCONTRASEÑA?"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtForgotInstruccion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
+        android:gravity="center"
+        android:text="NO TE PREOCUPES, INGRESA TU CORREO Y TE ENVIAREMOS LAS INSTRUCCIONES PARA REESTABLECER TU CONTRASEÑA"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:lineSpacingExtra="3dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeaderForgot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutInputCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="40dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/txtForgotInstruccion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CORREO ELECTRÓNICO "
+                android:textColor="#C0C0C0"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@android:drawable/ic_lock_idle_lock"
+                android:contentDescription="Seguro"
+                app:tint="#FF4D4D" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edtForgotEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#201E34"
+            android:hint="EJEMPLO@GMAIL.COM"
+            android:textColorHint="#757585"
+            android:textColor="#FFFFFF"
+            android:paddingHorizontal="16dp"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEnviarInstrucciones"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="ENVIAR INSTRUCCIONES"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:background="@drawable/fondo_barra"
+        android:backgroundTint="#D24A15"
+        app:layout_constraintTop_toBottomOf="@id/layoutInputCorreo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutSeparador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btnEnviarInstrucciones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#606070" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="O"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#606070" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnVolverInicio"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="VOLVER AL INICIO"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:background="@drawable/fondo_barra"
+        android:backgroundTint="#1B172E"
+        android:drawableStart="@android:drawable/ic_menu_revert"
+        android:drawableTint="#D24A15"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutSeparador"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btnVolverInicio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

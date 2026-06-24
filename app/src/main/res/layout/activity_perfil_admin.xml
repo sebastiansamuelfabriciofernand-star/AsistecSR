@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    tools:context=".PerfilAdminActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutHeaderTop"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnAtrasPerfilAdmin"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:rotation="180"
+            app:tint="#FF3D00" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PERFIL DEL ADMINISTRADOR"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginEnd="32dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeaderTop"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="12dp">
+
+                <LinearLayout
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:background="@drawable/fondo_btn_estudiante"
+                    android:backgroundTint="#070714"
+                    android:gravity="center"
+                    android:padding="2dp">
+                    <ImageView
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@android:drawable/ic_menu_report_image"
+                        app:tint="#FF3D00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/fondo_barra"
+                    android:backgroundTint="#2C304E"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <TextView android:id="@+id/txtAdminNombre" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NOMBRES:---------" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" />
+                    <TextView android:id="@+id/txtAdminApellidos" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="APELLIDOS:-------" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                    <TextView android:id="@+id/txtAdminEdad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EDAD:---------" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                    <TextView android:id="@+id/txtAdminNumero" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NUMERO:--------" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                    <TextView android:id="@+id/txtAdminEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="E-MAIL:-----" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📷 514984"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/fondo_btn_administrador"
+                android:backgroundTint="#0E163A"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Escanear QR" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Escanea el código del estudiante para registrar su asistencia" android:textColor="#AAAAAA" android:textSize="10sp" android:layout_marginTop="4dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnIniciarEscaner"
+                        android:layout_width="140dp"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#0D47A1"
+                        android:text="[QR] Iniciar escáner"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <ImageView android:layout_width="75dp" android:layout_height="75dp" android:src="@android:drawable/ic_dialog_dialer" app:tint="#FFFFFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/fondo_barra"
+                android:backgroundTint="#252A4A"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RESUMEN DE ASISTENCIAS:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <LinearLayout android:layout_width="95dp" android:layout_height="match_parent" android:background="@drawable/fondo_barra" android:backgroundTint="#76FF03" android:orientation="vertical" android:gravity="center" android:layout_marginEnd="6dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_myplaces" app:tint="#000000" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="35\nALUMNOS\nTOTALES" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="95dp" android:layout_height="match_parent" android:background="@drawable/fondo_barra" android:backgroundTint="#76FF03" android:orientation="vertical" android:gravity="center" android:layout_marginEnd="6dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_myplaces" app:tint="#000000" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="20\nDOCENTES\nTOTALES" android:textColor="#000000" android:textSize="9sp" android:textStyle="bold" android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="95dp" android:layout_height="match_parent" android:background="@drawable/fondo_barra" android:backgroundTint="#76FF03" android:orientation="vertical" android:gravity="center">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#000000" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="98% DE DISPONIBILIDAD\nDEL SISTEMA" android:textColor="#000000" android:textSize="8sp" android:textStyle="bold" android:gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    app:tint="#FF9100" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnListaAlumnos"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#3D5AFE"
+                        android:text="LISTA DE ALUMNOS"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnListaDocentes"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#C62828"
+                        android:text="LISTA DEDOCENTES"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnModoMantenimiento"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/fondo_barra"
+                android:backgroundTint="#23293F"
+                android:text="MODO MANTENIMIENTO"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

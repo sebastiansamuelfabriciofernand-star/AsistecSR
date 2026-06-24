@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_oscuro"
+    tools:context=".AsisteCSR">
+
+    <ImageView
+        android:id="@+id/logoDsi"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="Logo DSI"
+        android:src="@drawable/logo_salazar_romero"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ASISTENCIAS-DSI"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/logoDsi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="CARGANDO SU REGISTRO"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/containerBarras"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/txtEstado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:id="@+id/barra1"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/fondo_barra"
+            android:foreground="@drawable/barra_progreso_clip"
+            android:foregroundTint="@color/verde_neon" />
+
+        <View
+            android:id="@+id/barra2"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/fondo_barra"
+            android:foreground="@drawable/barra_progreso_clip"
+            android:foregroundTint="@color/verde_neon" />
+
+        <View
+            android:id="@+id/barra3"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/fondo_barra"
+            android:foreground="@drawable/barra_progreso_clip"
+            android:foregroundTint="@color/verde_neon" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtPorcentaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="1%"
+        android:textColor="@color/naranja_porcentaje"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/containerBarras"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtBienvenida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Bienvenido por favor espere"
+        android:textColor="@color/verde_neon"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/txtPorcentaje"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgFooter"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="Icono Grupo"
+        android:src="@drawable/grupo_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

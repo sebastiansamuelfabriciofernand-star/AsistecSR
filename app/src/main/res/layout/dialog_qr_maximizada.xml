@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CREDENCIAL DE ASISTENCIA"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"/>
+
+    <ImageView
+        android:id="@+id/ivQrGigante"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:contentDescription="QR Maximizado" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Presenta este código al docente"
+        android:textColor="#8A8A9E"
+        android:textSize="14sp"
+        android:layout_marginBottom="40dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCerrarQrGigante"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:background="@drawable/fondo_btn_volver"
+        android:text="VOLVER AL PERFIL"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

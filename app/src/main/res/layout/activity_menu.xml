@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0B1A"
+    tools:context=".MenuActivity">
+
+    <TextView
+        android:id="@+id/txtMenuTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="ASISTENCIAS-DSI"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgMenuLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_salazar_romero"
+        android:contentDescription="Logo DSI"
+        app:layout_constraintTop_toBottomOf="@id/txtMenuTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEslogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="IMPULSANDO TU FUTURO DIGITAL"
+        android:textColor="#FF4D4D"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/imgMenuLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutPerfiles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="32dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/txtEslogan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnProfesor"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#232233"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/lblProfesor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PROFESOR"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/icProfesor"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@android:drawable/ic_menu_slideshow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="#FF4D4D" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnEstudiante"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#232233"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/lblEstudiante"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ESTUDIANTE"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/icEstudiante"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="#FF4D4D" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnAdministrador"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/fondo_barra"
+            android:backgroundTint="#232233"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/lblAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADMINISTRADOR"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/icAdmin"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@android:drawable/ic_menu_mapmode"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="#FF4D4D" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnSeleccionaPerfil"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/fondo_barra"
+        android:backgroundTint="#1F1B40"
+        android:gravity="center"
+        android:text="Selecciona tu perfil       ⚠️"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/layoutPerfiles"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Conectando conocimiento, tecnología y futuro"
+        android:textColor="#FF4D4D"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

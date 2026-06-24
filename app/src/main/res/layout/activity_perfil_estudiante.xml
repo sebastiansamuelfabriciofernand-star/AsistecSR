@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    tools:context=".PerfilEstudianteActivity"
+    tools:ignore="HardcodedText,UseCompatTextViewDrawable">
+
+    <ImageView
+        android:id="@+id/btnAtrasPerfilEstudiante"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:src="@android:drawable/ic_menu_revert"
+        android:rotation="180"
+        app:tint="#E65100"
+        android:contentDescription="Botón regresar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTituloPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PERFIL DEL ESTUDIANTE"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnAtrasPerfilEstudiante"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAtrasPerfilEstudiante" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloPerfil">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/layoutFilaUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_marginEnd="16dp">
+
+                    <ImageView
+                        android:id="@+id/imgFotoPerfilEstudiante"
+                        android:layout_width="110dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/fondo_btn_estudiante"
+                        android:backgroundTint="#070714"
+                        android:padding="20dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Foto de perfil del estudiante"
+                        android:src="@android:drawable/ic_menu_report_image"
+                        app:tint="#E65100" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="ESTUDIANTE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_barra"
+                    android:backgroundTint="#3B405E"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/txtPerfilNombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NOMBRES: Cargando..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/txtPerfilApellidos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="APELLIDOS: Cargando..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/txtPerfilDni"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DNI: --------"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/txtPerfilEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="E-MAIL: Cargando..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardCodigoQR"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/fondo_btn_administrador"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mi código QR"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Muéstralo al docente\npara registrar tu asistencia"
+                        android:textColor="#8A8A9E"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnMostrarQR"
+                        android:layout_width="140dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/barra_progreso_clip"
+                        android:backgroundTint="#001933"
+                        android:drawableStart="@android:drawable/ic_menu_camera"
+                        android:drawableTint="#0091EA"
+                        android:paddingStart="10dp"
+                        android:text="Mostrar QR"
+                        android:textColor="#0091EA"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivCodigoQR"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_marginEnd="4dp"
+                    android:contentDescription="Código QR"
+                    android:src="@android:drawable/ic_dialog_dialer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutMetricasGrid"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/fondo_barra"
+                    android:backgroundTint="#131530"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:contentDescription="Calendario"
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        app:tint="#D84315" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="ASISTENCIAS"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/fondo_barra"
+                    android:backgroundTint="#131530"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FALTAS"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRealizarConsulta"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="36dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/barra_progreso_clip"
+                android:backgroundTint="#3F2B96"
+                android:text="REALIZAR CONSULTA PARA JUSTIFICACION"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <CalendarView
+                android:id="@+id/calendarViewEstudiante"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
