@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from // 👈 IMPORTANTE: Para usar la sintaxis moderna .from()
 import kotlinx.coroutines.launch
 
 class PerfilDocenteActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class PerfilDocenteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_docente)
 
-        // 1. Vincular vistas con los IDs del XML
+        // 1. Vincular vistas con los IDs de tu XML original
         val btnAtras = findViewById<ImageView>(R.id.btnAtrasPerfilDocente)
         val txtNombreDocente = findViewById<TextView>(R.id.txtNombreDocente)
         val txtPerfilNumero = findViewById<TextView>(R.id.txtPerfilNumero)
@@ -34,12 +34,12 @@ class PerfilDocenteActivity : AppCompatActivity() {
         // Botón Atrás
         btnAtras.setOnClickListener { finish() }
 
-        // 2. Intentar cargar el objeto DocenteProfile de forma segura según la versión de Android
+        // 2. Cargar el objeto Serializable de forma segura según la versión de Android
         val docenteExtra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra("DOCENTE_OBJETO", DocenteProfile::class.java)
+            intent.getSerializableExtra("DOCENTE_OBJETO", DocenteModel::class.java)
         } else {
             @Suppress("DEPRECATION")
-            intent.getSerializableExtra("DOCENTE_OBJETO") as? DocenteProfile
+            intent.getSerializableExtra("DOCENTE_OBJETO") as? DocenteModel
         }
 
         // 3. Evaluar el origen de los datos
@@ -49,17 +49,27 @@ class PerfilDocenteActivity : AppCompatActivity() {
             cargarDatosDesdeSupabase(txtNombreDocente, txtPerfilNumero, txtPerfilCorreoInst, txtPerfilCorreoPersonal)
         }
 
-        // 4. Configurar listeners de botones e Intents de navegación
+        // 4. Configurar listeners de botones integrados formalmente a tu flujo
+
+        // Botón Cámara (Abre directamente el escáner QR)
         btnIniciarEscaner.setOnClickListener {
-            Toast.makeText(this, "Abriendo escáner...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EscanerQrActivity::class.java).apply {
+                putExtra("EXTRA_CICLO", 1)
+                putExtra("EXTRA_TURNO", "DIURNO")
+            }
+            startActivity(intent)
         }
 
+        // Botón Lista de Alumnos
         btnListaAlumnos.setOnClickListener {
-            startActivity(Intent(this, ListaAlumnosActivity::class.java))
+            val intent = Intent(this, ListaAlumnosActivity::class.java)
+            startActivity(intent)
         }
 
+        // Botón Historial/Lista de Asistencias
         btnListaAsistencias.setOnClickListener {
-            startActivity(Intent(this, SeleccionAsistenciaActivity::class.java))
+            val intent = Intent(this, SeleccionAsistenciaActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -69,29 +79,32 @@ class PerfilDocenteActivity : AppCompatActivity() {
         if (userId != null) {
             lifecycleScope.launch {
                 try {
-                    // Consulta a la tabla Docentes filtrando por id_docente
-                    val docente = SupabaseManager.client.postgrest["Docentes"]
-                        .select { filter { eq("id_docente", userId) } }
-                        .decodeSingle<DocenteProfile>()
+                    // CORRECCIÓN: Uso de la sintaxis limpia .from() compatible con tu BOM actual
+                    val response = SupabaseManager.client.from("Docentes").select {
+                        filter {
+                            eq("id_docente", userId)
+                        }
+                    }
 
+                    val docente = response.decodeSingle<DocenteModel>()
                     actualizarUI(docente, txtNom, txtNum, txtInst, txtPers)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Toast.makeText(this@PerfilDocenteActivity, "Error al cargar datos del profesor", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            // Manejo de error si no hay sesión activa
-            Toast.makeText(this, "Sesión inválida o expirada", Toast.LENGTH_LONG).show()
+            @Suppress("SpellCheckingInspection")
+            Toast.makeText(this, "Sesión de Supabase inválida o expirada", Toast.LENGTH_LONG).show()
             finish()
         }
     }
 
-    private fun actualizarUI(docente: DocenteProfile, txtNom: TextView, txtNum: TextView, txtInst: TextView, txtPers: TextView) {
-        // Mapeo idéntico con las propiedades definidas en tu DocenteProfile.kt
+    private fun actualizarUI(docente: DocenteModel, txtNom: TextView, txtNum: TextView, txtInst: TextView, txtPers: TextView) {
         txtNom.text = docente.nombresApellidos
-        txtNum.text = "NUMERO: ${docente.numero}"
-        txtInst.text = "CORREO INST: ${docente.correoInst}"
-        txtPers.text = "CORREO PERS: ${docente.correo}"
+        txtNum.text = getString(R.string.perfil_docente_numero, docente.numero)
+        txtInst.text = getString(R.string.perfil_docente_email_inst, docente.correoInst)
+        txtPers.text = getString(R.string.perfil_docente_email_personal, docente.correo)
     }
 }

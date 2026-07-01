@@ -20,6 +20,7 @@
         <activity android:name=".SeleccionAsistenciaActivity" android:exported="false" />
         <activity android:name=".PerfilAdminActivity" android:exported="false" />
         <activity android:name=".SelectorCarrerasActivity" android:exported="false" />
+        <activity android:name=".EscanerQrActivity" android:exported="false" />
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

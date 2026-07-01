@@ -13,8 +13,9 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class PerfilEstudianteActivity : AppCompatActivity() {
 
@@ -38,7 +39,6 @@ class PerfilEstudianteActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Carga los datos de Supabase e inyecta el mini QR de manera automática al entrar
         cargarDatosDelAlumno(txtPerfilNombre, txtPerfilApellidos, txtPerfilDni, txtPerfilEmail, ivCodigoQR)
 
         btnMostrarQR.setOnClickListener {
@@ -55,7 +55,6 @@ class PerfilEstudianteActivity : AppCompatActivity() {
 
                     ivQrGigante.setImageBitmap(qrBitmapGrande)
 
-                    // MODIFICACIÓN: Acción con animación de escala antes de cerrar el diálogo
                     btnCerrarQrGigante.setOnClickListener {
                         btnCerrarQrGigante.animate()
                             .scaleX(0.92f)
@@ -98,19 +97,23 @@ class PerfilEstudianteActivity : AppCompatActivity() {
         if (userId != null) {
             lifecycleScope.launch {
                 try {
-                    val perfilAlumno = SupabaseManager.client.postgrest["Estudiantes"]
+                    // Cambiado el acceso heredado por la sintaxis limpia .from()
+                    val response = SupabaseManager.client.from("Estudiantes")
                         .select { filter { eq("codigoQr", userId) } }
-                        .decodeSingle<UserProfile>()
 
-                    dniEstudiante = perfilAlumno.dni
+                    val perfilAlumno = response.decodeSingle<EstudianteModel>()
 
-                    txtNombre.text = "NOMBRES: ${perfilAlumno.nombres.uppercase()}"
-                    txtApellidos.text = "APELLIDOS: ${perfilAlumno.apellidos.uppercase()}"
-                    txtDni.text = "DNI: ${perfilAlumno.dni}"
-                    txtEmail.text = "E-MAIL: ${perfilAlumno.email}"
+                    // Guardamos el codigoQr (UID de Supabase) en lugar del DNI para el flujo del escáner
+                    dniEstudiante = perfilAlumno.codigoQr
 
-                    if (!perfilAlumno.dni.isNullOrEmpty()) {
-                        val qrBitmap = generarCodigoQR(perfilAlumno.dni, 350)
+                    txtNombre.text = getString(R.string.perfil_nombres, perfilAlumno.nombres.uppercase(Locale.getDefault()))
+                    txtApellidos.text = getString(R.string.perfil_apellidos, perfilAlumno.apellidos.uppercase(Locale.getDefault()))
+                    txtDni.text = getString(R.string.perfil_dni, perfilAlumno.dni)
+                    txtEmail.text = getString(R.string.perfil_email, perfilAlumno.email)
+
+                    // El código QR ahora se generará con el UID oficial de la relación de la BD
+                    if (perfilAlumno.codigoQr.isNotEmpty()) {
+                        val qrBitmap = generarCodigoQR(perfilAlumno.codigoQr, 350)
                         if (qrBitmap != null) {
                             ivQr.setImageBitmap(qrBitmap)
                         }
@@ -137,16 +140,18 @@ class PerfilEstudianteActivity : AppCompatActivity() {
             )
             val ancho = bitMatrix.width
             val alto = bitMatrix.height
+
+            // Creación nativa estándar compatible con todas las versiones
             val bitmap = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565)
 
             for (x in 0 until ancho) {
                 for (y in 0 until alto) {
+                    // Usamos setPixel directamente para solucionar el error de array access
                     bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
                 }
             }
             bitmap
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (_: Exception) {
             null
         }
     }

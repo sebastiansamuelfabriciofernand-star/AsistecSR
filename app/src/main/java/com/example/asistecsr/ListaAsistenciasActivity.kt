@@ -2,142 +2,116 @@ package com.example.asistecsr
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.widget.ImageView
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import io.github.jan.supabase.postgrest.postgrest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class ListaAsistenciasActivity : AppCompatActivity() {
 
-    private lateinit var txtFechaSeleccionada: TextView
     private lateinit var rvListaAsistencias: RecyclerView
-    private lateinit var adapter: AsistenciaAdapter
+    private lateinit var txtFechaSeleccionada: TextView
 
-    private var filtroCiclo: Int = -1
-    private var filtroTurno: String? = null
-    private var fechaActualNodo: String = ""
-
-    // 🛠️ Guardamos el estado de la fecha seleccionada para el DatePicker
-    private var anioSeleccionado: Int = 0
-    private var mesSeleccionado: Int = 0
-    private var diaSeleccionado: Int = 0
+    private var cicloFiltro: Int = -1
+    private var turnoFiltro: String = ""
+    private var fechaSeleccionada: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_asistencias)
 
-        filtroCiclo = intent.getIntExtra("EXTRA_CICLO", -1)
-        filtroTurno = intent.getStringExtra("EXTRA_TURNO")
+        // 1. Recibir parámetros enviados desde la pantalla del Profesor
+        cicloFiltro = intent.getIntExtra("EXTRA_CICLO", -1)
+        turnoFiltro = (intent.getStringExtra("EXTRA_TURNO") ?: "").uppercase(Locale.getDefault()).trim()
 
-        val btnAtras = findViewById<ImageView>(R.id.btnAtrasAsistencias)
-        txtFechaSeleccionada = findViewById<TextView>(R.id.txtFechaSeleccionada)
-        rvListaAsistencias = findViewById<RecyclerView>(R.id.rvListaAsistencias)
+        // 2. Inicializar vistas vinculadas exactamente a tu XML
+        rvListaAsistencias = findViewById(R.id.rvListaAsistencias)
+        txtFechaSeleccionada = findViewById(R.id.txtFechaSeleccionada)
 
         rvListaAsistencias.layoutManager = LinearLayoutManager(this)
 
-        adapter = AsistenciaAdapter(arrayListOf())
-        rvListaAsistencias.adapter = adapter
-
-        btnAtras.setOnClickListener { finish() }
-
-        // Inicializamos las variables con la fecha de hoy por defecto
-        val calendario = Calendar.getInstance()
-        anioSeleccionado = calendario.get(Calendar.YEAR)
-        mesSeleccionado = calendario.get(Calendar.MONTH)
-        diaSeleccionado = calendario.get(Calendar.DAY_OF_MONTH)
-
-        // Carga inicial (Hoy)
-        actualizarFechaYConsultar(diaSeleccionado, mesSeleccionado + 1, anioSeleccionado)
-
-        // Escuchador de clics en la barra de fecha
-        txtFechaSeleccionada.setOnClickListener {
-            // 🛠️ Ahora abre el calendario mostrando la fecha que se está consultando actualmente
-            DatePickerDialog(this, { _, year, month, dayOfMonth ->
-                // Guardamos el nuevo estado seleccionado
-                anioSeleccionado = year
-                mesSeleccionado = month // Nota: Se guarda el mes base 0 nativo
-                diaSeleccionado = dayOfMonth
-
-                actualizarFechaYConsultar(dayOfMonth, month + 1, year)
-            }, anioSeleccionado, mesSeleccionado, diaSeleccionado).show()
+        findViewById<View>(R.id.btnAtrasAsistencias).setOnClickListener {
+            finish()
         }
+
+        // 3. Configurar fecha actual por defecto (Formato YYYY-MM-DD)
+        val calendario = Calendar.getInstance()
+        val formatoFecha = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        fechaSeleccionada = formatoFecha.format(calendario.time)
+
+        // CORREGIDO: Uso seguro de String Resources sin concatenar
+        txtFechaSeleccionada.text = getString(R.string.formato_fecha_mostrar, fechaSeleccionada)
+
+        // 4. Selector de fecha integrado al hacer clic sobre el TextView
+        txtFechaSeleccionada.setOnClickListener {
+            DatePickerDialog(
+                this,
+                { _, yearSelected, monthSelected, daySelected ->
+                    calendario.set(Calendar.YEAR, yearSelected)
+                    calendario.set(Calendar.MONTH, monthSelected)
+                    calendario.set(Calendar.DAY_OF_MONTH, daySelected)
+
+                    fechaSeleccionada = formatoFecha.format(calendario.time)
+                    txtFechaSeleccionada.text = getString(R.string.formato_fecha_mostrar, fechaSeleccionada)
+
+                    cargarHistorialAsistencias()
+                },
+                calendario.get(Calendar.YEAR),
+                calendario.get(Calendar.MONTH),
+                calendario.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        // Carga inicial automática de la lista
+        cargarHistorialAsistencias()
     }
 
-    private fun actualizarFechaYConsultar(dia: Int, mes: Int, anio: Int) {
-        val fechaFormateada = String.format("%02d/%02d/%d", dia, mes, anio)
-        txtFechaSeleccionada.text = "📅 Día: $fechaFormateada\n($filtroTurno - ${filtroCiclo}° CICLO)"
-        fechaActualNodo = String.format("%d-%02d-%02d", anio, mes, dia)
+    private fun cargarHistorialAsistencias() {
+        if (cicloFiltro == -1 || turnoFiltro.isEmpty()) {
+            Toast.makeText(this, getString(R.string.error_filtros_invalidos), Toast.LENGTH_LONG).show()
+            return
+        }
 
-        cargarAlumnosPorFiltro()
-    }
-
-    private fun cargarAlumnosPorFiltro() {
         lifecycleScope.launch {
             try {
-                // 1. Traer todos los estudiantes que pertenecen a esta carpeta/salón
-                val resultadoEstudiantes = withContext(Dispatchers.IO) {
-                    SupabaseManager.client.postgrest["Estudiantes"].select {
-                        filter {
-                            if (filtroCiclo != -1) eq("ciclo", filtroCiclo)
-                            if (filtroTurno != null) eq("turno", filtroTurno!!)
-                        }
-                    }.decodeList<JsonObject>()
+                val idDocenteLogueado = SupabaseManager.client.auth.currentUserOrNull()?.id
+
+                if (idDocenteLogueado == null) {
+                    Toast.makeText(this@ListaAsistenciasActivity, getString(R.string.error_sesion_docente), Toast.LENGTH_LONG).show()
+                    return@launch
                 }
 
-                // 2. Traer los códigos QR que YA fueron escaneados de la tabla "Asistencia" en el día seleccionado
-                val asistenciasDeHoy = withContext(Dispatchers.IO) {
-                    SupabaseManager.client.postgrest["Asistencia"].select {
-                        filter {
-                            eq("fecha", fechaActualNodo)
-                        }
-                    }.decodeList<JsonObject>()
-                }
+                // Consulta limpia apuntando a la tabla física en singular: "Asistencia"
+                val listaAsistencias = SupabaseManager.client.from("Asistencia").select {
+                    filter {
+                        eq("ciclo", cicloFiltro)
+                        eq("turno", turnoFiltro)
+                        eq("fecha", fechaSeleccionada)
+                        eq("id_docente", idDocenteLogueado)
+                    }
+                }.decodeList<AsistenciaModel>()
 
-                // Creamos un Set con los códigos QR escaneados para buscar rápido
-                val codigosEscaneadosSet = asistenciasDeHoy.mapNotNull {
-                    it["codigoQr"]?.jsonPrimitive?.content
-                }.toSet()
+                // Actualizar el RecyclerView
+                rvListaAsistencias.adapter = AsistenciaAdapter(listaAsistencias)
 
-                // 3. Mapeamos cruzando la información
-                val listaAlumnos = resultadoEstudiantes.mapIndexed { index, json ->
-                    val nom = json["Nombres"]?.jsonPrimitive?.content ?: "Sin Nombre"
-                    val ape = json["Apellidos"]?.jsonPrimitive?.content ?: ""
-                    val nombreCompleto = "$nom $ape".trim()
-                    val qrEstudiante = json["codigoQr"]?.jsonPrimitive?.content ?: "S/ID"
-
-                    val yaSeEscaneo = codigosEscaneadosSet.contains(qrEstudiante)
-
-                    AlumnoAsistencia(
-                        numeroOrden = index + 1,
-                        nombre = nombreCompleto,
-                        idAlumno = qrEstudiante,
-                        materia = json["carrera"]?.jsonPrimitive?.content ?: "Sistemas",
-                        asistio = yaSeEscaneo,
-                        fecha = fechaActualNodo,
-                        ciclo = filtroCiclo,
-                        turno = filtroTurno ?: ""
-                    )
-                }
-
-                adapter.actualizarLista(listaAlumnos)
-
-                if (listaAlumnos.isEmpty()) {
-                    Toast.makeText(this@ListaAsistenciasActivity, "No se encontraron alumnos con estos filtros", Toast.LENGTH_SHORT).show()
+                if (listaAsistencias.isEmpty()) {
+                    Toast.makeText(this@ListaAsistenciasActivity, getString(R.string.sin_asistencias_hoy), Toast.LENGTH_SHORT).show()
                 }
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@ListaAsistenciasActivity, "Error de carga: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                // CORREGIDO: Marcador de posición para strings dinámicos
+                val mensajeError = getString(R.string.error_traer_asistencias, e.localizedMessage ?: "")
+                Toast.makeText(this@ListaAsistenciasActivity, mensajeError, Toast.LENGTH_LONG).show()
             }
         }
     }

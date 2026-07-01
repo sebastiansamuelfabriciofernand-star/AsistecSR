@@ -1,68 +1,55 @@
 package com.example.asistecsr
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class AsistenciaAdapter(private var lista: ArrayList<AlumnoAsistencia>) :
-    RecyclerView.Adapter<AsistenciaAdapter.AsistenciaViewHolder>() {
+class AsistenciaAdapter(private val lista: List<AsistenciaModel>) :
+    RecyclerView.Adapter<AsistenciaAdapter.ViewHolder>() {
 
-    class AsistenciaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtNumero: TextView = itemView.findViewById(R.id.txtNumeroOrden)
-        val txtNombre: TextView = itemView.findViewById(R.id.txtNombreAlumno)
-        val txtId: TextView = itemView.findViewById(R.id.txtIdAlumno)
-        val txtMateria: TextView = itemView.findViewById(R.id.txtMateria)
-        val btnEstado: TextView = itemView.findViewById(R.id.btnEstadoAsistencia)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtNum: TextView = view.findViewById(R.id.txtNumeroOrden)
+        val txtNombre: TextView = view.findViewById(R.id.txtNombreAlumno)
+        val txtId: TextView = view.findViewById(R.id.txtIdAlumno)
+        val txtMateria: TextView = view.findViewById(R.id.txtMateria)
+        val btnEstado: TextView = view.findViewById(R.id.btnEstadoAsistencia)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsistenciaViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_alumno_asistencia, parent, false)
-        return AsistenciaViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AsistenciaViewHolder, position: Int) {
-        val alumno = lista[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val registro = lista[position]
+        val context = holder.itemView.context
 
-        holder.txtNumero.text = alumno.numeroOrden.toString()
-        holder.txtNombre.text = alumno.nombre
-        holder.txtId.text = "ID: ${alumno.idAlumno}"
-        holder.txtMateria.text = alumno.materia
+        holder.txtNum.text = (position + 1).toString()
+        holder.txtNombre.text = "${registro.nombres ?: "Alumno"} ${registro.apellidos ?: "Desconocido"}"
+        holder.txtId.text = context.getString(R.string.formato_id_alumno, registro.dniAlumno ?: "---")
+        holder.txtMateria.text = registro.clase ?: "Sin Clase"
 
-        // Forzar a que el elemento sea interactivo ignorando las restricciones del XML
-        holder.btnEstado.isClickable = true
-        holder.btnEstado.isFocusable = true
-
-        actualizarEstiloBoton(holder.btnEstado, alumno.asistio)
-
-        // Evento de clic interactivo
-        holder.btnEstado.setOnClickListener {
-            alumno.asistio = !alumno.asistio
-            actualizarEstiloBoton(holder.btnEstado, alumno.asistio)
+        // Configuración dinámica del texto y color según el estado del registro de asistencia
+        val estado = registro.estadoAsistencia?.uppercase() ?: "ASISTIO"
+        when (estado) {
+            "ASISTIO" -> {
+                holder.btnEstado.text = "✓ Asistió"
+                holder.btnEstado.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#2E7D32")) // Verde
+            }
+            "TARDANZA" -> {
+                holder.btnEstado.text = "🕒 Tardanza"
+                holder.btnEstado.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#EF6C00")) // Naranja
+            }
+            else -> { // FALTO
+                holder.btnEstado.text = "✕ Faltó"
+                holder.btnEstado.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#C62828")) // Rojo
+            }
         }
     }
 
-    private fun actualizarEstiloBoton(btnEstado: TextView, asistio: Boolean) {
-        val context = btnEstado.context
-        if (asistio) {
-            btnEstado.text = "✓ Asistió"
-            btnEstado.setBackgroundResource(R.drawable.barra_progreso_clip)
-            btnEstado.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.holo_green_dark)
-        } else {
-            btnEstado.text = "✕ No asistió"
-            btnEstado.setBackgroundResource(R.drawable.barra_progreso_clip)
-            btnEstado.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.holo_red_dark)
-        }
-    }
-
-    override fun getItemCount(): Int = lista.size
-
-    fun actualizarLista(nuevaLista: List<AlumnoAsistencia>) {
-        this.lista.clear()
-        this.lista.addAll(nuevaLista)
-        notifyDataSetChanged()
-    }
+    override fun getItemCount() = lista.size
 }

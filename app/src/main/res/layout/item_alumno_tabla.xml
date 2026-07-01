@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://tools.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:padding="12dp"
-    android:background="#070714">
+    android:layout_marginBottom="6dp"
+    android:background="#1B1E36"
+    tools:ignore="ContentDescription,HardcodedText">
 
     <TextView
         android:id="@+id/txtNumeroOrden"

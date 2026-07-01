@@ -3,100 +3,73 @@ package com.example.asistecsr
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
+import androidx.cardview.widget.CardView
 
 class SeleccionAsistenciaActivity : AppCompatActivity() {
 
-    // Cambiamos el Triple para almacenar el LinearLayout de la tarjeta y el nombre de la carrera
-    private lateinit var listaTarjetasCarreras: List<Pair<LinearLayout, String>>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Vinculamos con tu archivo real de carreras
-        setContentView(R.layout.activity_selector_carreras)
+        // Vinculamos de manera correcta al diseño de ciclos y turnos
+        setContentView(R.layout.activity_seleccion_asistencia)
 
-        // Botón Atrás (ID corregido según tu XML: btnAtrasSelector)
-        findViewById<View>(R.id.btnAtrasSelector).setOnClickListener {
-            finish()
-        }
+        // Botón Atrás
+        findViewById<View>(R.id.btnAtrasSeleccion).setOnClickListener { finish() }
 
-        // Mapeamos los LinearLayout de tus tarjetas reales definidos en activity_selector_carreras.xml
-        listaTarjetasCarreras = listOf(
-            Pair(findViewById(R.id.cardMedicina), "MEDICINA TECNICA"),
-            Pair(findViewById(R.id.cardMecatronica), "MECATRONICA AUTOMOTRIZ"),
-            Pair(findViewById(R.id.cardSistemas), "DESARROLLO DE SISTEMAS E INFORMACION"),
-            Pair(findViewById(R.id.cardContabilidad), "CONTABILIDAD"),
-            Pair(findViewById(R.id.cardElectricidad), "ELECTRICIDAD INDUSTRIAL"),
-            Pair(findViewById(R.id.cardQuimica), "QUIMICA"),
-            Pair(findViewById(R.id.cardCursos), "CURSOS IMPLEMENTARIOS")
-        )
+        // Configuración de los Spinners de Filtros superiores
+        val spinnerTurno = findViewById<Spinner>(R.id.spinnerTurnoAsistencia)
+        val spinnerCiclo = findViewById<Spinner>(R.id.spinnerCicloAsistencia)
 
-        // Al hacer clic en una carrera, abrimos la actividad que muestra la lista de docentes
-        listaTarjetasCarreras.forEach { (card, nombreCarrera) ->
-            card.setOnClickListener {
-                // Pasamos la carrera seleccionada para que la lista de docentes sepa qué filtrar de Supabase
-                val intent = Intent(this, ListaDocentesActivity::class.java).apply {
-                    putExtra("EXTRA_CARRERA", nombreCarrera)
-                }
-                startActivity(intent)
-            }
-        }
+        // Opciones quemadas o traídas de strings.xml si los tienes creados
+        val turnos = arrayOf("DIURNO", "NOCTURNO")
+        val ciclos = arrayOf("1", "2", "3", "4", "5", "6")
 
-        // Configuración de los Spinners con los IDs reales de tu XML
-        val spinnerTurno = findViewById<Spinner>(R.id.spinnerTurno)
-        val spinnerCiclo = findViewById<Spinner>(R.id.spinnerCiclo)
-        val etBuscarArea = findViewById<EditText>(R.id.etBuscarArea)
+        spinnerTurno.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, turnos)
+        spinnerCiclo.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ciclos)
 
-        val adapterTurno = ArrayAdapter.createFromResource(this, R.array.opciones_turno, android.R.layout.simple_spinner_item)
-        adapterTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerTurno.adapter = adapterTurno
-
-        val adapterCiclo = ArrayAdapter.createFromResource(this, R.array.opciones_ciclo, android.R.layout.simple_spinner_item)
-        adapterCiclo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerCiclo.adapter = adapterCiclo
-
-        // Listener para filtrar las tarjetas por Turno / Ciclo / Texto de búsqueda
-        val filtroListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val turnoSel = spinnerTurno.selectedItem.toString()
-                val cicloSel = spinnerCiclo.selectedItem.toString()
-                aplicarFiltros(turnoSel, cicloSel, etBuscarArea.text.toString())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        spinnerTurno.onItemSelectedListener = filtroListener
-        spinnerCiclo.onItemSelectedListener = filtroListener
-
-        // Botón superior azul: "LISTA DE DOCENTE"
-        findViewById<AppCompatButton>(R.id.btnListaDocenteTop).setOnClickListener {
-            val intent = Intent(this, ListaDocentesActivity::class.java)
+        // Botón superior: LISTA DE ALUMNOS
+        findViewById<View>(R.id.btnIrListaAlumnos).setOnClickListener {
+            val intent = Intent(this, ListaAlumnosActivity::class.java)
             startActivity(intent)
         }
 
-        // Botón rojo inferior: "ACTUALIZAR CARPETA"
-        findViewById<AppCompatButton>(R.id.btnActualizarCarpeta).setOnClickListener {
-            // Aquí puedes colocar la lógica para refrescar datos desde Supabase
+        // Mapear y configurar las tarjetas del Grid de Ciclos
+        configurarTarjetasGrid()
+
+        // Botón inferior: ACTUALIZAR CARPETA
+        findViewById<View>(R.id.btnActualizarCarpeta).setOnClickListener {
+            Toast.makeText(this, "Sincronizando registros con Supabase...", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun aplicarFiltros(turnoSel: String, cicloSel: String, textoBusqueda: String) {
-        listaTarjetasCarreras.forEach { (card, nombreCarrera) ->
-            // Filtro por texto en el EditText
-            val coincideTexto = textoBusqueda.isEmpty() || nombreCarrera.contains(textoBusqueda.uppercase(), ignoreCase = true)
+    private fun configurarTarjetasGrid() {
+        // Lista ordenada de IDs y sus respectivos (Ciclo, Turno)
+        val mapeoTarjetas = listOf(
+            Pair(R.id.btn1Diurno, Pair(1, "DIURNO")),
+            Pair(R.id.btn1Nocturno, Pair(1, "NOCTURNO")),
+            Pair(R.id.btn2Diurno, Pair(2, "DIURNO")),
+            Pair(R.id.btn2Nocturno, Pair(2, "NOCTURNO")),
+            Pair(R.id.btn3Diurno, Pair(3, "DIURNO")),
+            Pair(R.id.btn3Nocturno, Pair(3, "NOCTURNO")),
+            Pair(R.id.btn4Diurno, Pair(4, "DIURNO")),
+            Pair(R.id.btn4Nocturno, Pair(4, "NOCTURNO")),
+            Pair(R.id.btn5Diurno, Pair(5, "DIURNO")),
+            Pair(R.id.btn5Nocturno, Pair(5, "NOCTURNO")),
+            Pair(R.id.btn6Diurno, Pair(6, "DIURNO")),
+            Pair(R.id.btn6Nocturno, Pair(6, "NOCTURNO"))
+        )
 
-            // Aquí puedes vincular lógicas de turno/ciclo adicionales si tu base de datos segmenta las carreras por ellos.
-            // Por ahora, si coincide con el texto de búsqueda, se muestra
-            if (coincideTexto) {
-                card.visibility = View.VISIBLE
-            } else {
-                card.visibility = View.GONE
+        mapeoTarjetas.forEach { (idCard, datos) ->
+            findViewById<CardView>(idCard)?.setOnClickListener {
+                // Al presionar la tarjeta, abrimos el historial pasándole el ciclo y turno clicleado
+                val intent = Intent(this, ListaAsistenciasActivity::class.java).apply {
+                    putExtra("EXTRA_CICLO", datos.first)
+                    putExtra("EXTRA_TURNO", datos.second)
+                }
+                startActivity(intent)
             }
         }
     }

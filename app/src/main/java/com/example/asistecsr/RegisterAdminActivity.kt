@@ -1,5 +1,6 @@
 package com.example.asistecsr
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,31 +19,36 @@ class RegisterAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_admin)
 
-        // Vincular componentes con los IDs reales de activity_register_admin.xml
         val btnAtras = findViewById<ImageView>(R.id.btnAtrasRegisterAdmin)
         val btnCrearCuenta = findViewById<AppCompatButton>(R.id.btnCrearCuentaAdmin)
 
-        val edtNombre = findViewById<EditText>(R.id.txtRegisterAdminNombre)
-        val edtApellidos = findViewById<EditText>(R.id.txtRegisterAdminApellidos)
-        val edtDni = findViewById<EditText>(R.id.txtRegisterAdminDni)
-        val edtNumero = findViewById<EditText>(R.id.txtRegisterAdminNumero)
-        val edtCorreo = findViewById<EditText>(R.id.txtRegisterAdminCorreo)
-        val edtPassword = findViewById<EditText>(R.id.txtRegisterAdminContrasena)
+        val idTxtNombre = findViewById<EditText>(R.id.txtRegisterAdminNombre)
+        val idTxtApellidos = findViewById<EditText>(R.id.txtRegisterAdminApellidos)
+        val idTxtDni = findViewById<EditText>(R.id.txtRegisterAdminDni)
+        val idTxtNumero = findViewById<EditText>(R.id.txtRegisterAdminNumero)
+        val idTxtCorreo = findViewById<EditText>(R.id.txtRegisterAdminCorreo)
+        val idTxtContrasena = findViewById<EditText>(R.id.txtRegisterAdminContrasena)
 
         btnAtras.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
         btnCrearCuenta.setOnClickListener {
-            val nombre = edtNombre.text.toString().trim()
-            val apellidos = edtApellidos.text.toString().trim()
-            val dni = edtDni.text.toString().trim()
-            val numero = edtNumero.text.toString().trim()
-            val correo = edtCorreo.text.toString().trim()
-            val password = edtPassword.text.toString().trim()
+            val nombreTxt = idTxtNombre.text.toString().trim()
+            val apellidoTxt = idTxtApellidos.text.toString().trim()
+            val dniTxt = idTxtDni.text.toString().trim()
+            val numeroTxt = idTxtNumero.text.toString().trim()
+            val correoTxt = idTxtCorreo.text.toString().trim()
+            val contrasenaTxt = idTxtContrasena.text.toString().trim()
 
-            if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || numero.isEmpty() || correo.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+            if (nombreTxt.isEmpty() || apellidoTxt.isEmpty() || dniTxt.isEmpty() ||
+                numeroTxt.isEmpty() || correoTxt.isEmpty() || contrasenaTxt.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (contrasenaTxt.length < 6) {
+                Toast.makeText(this, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -50,35 +56,48 @@ class RegisterAdminActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    // 1. Crear cuenta en la sección Auth de Supabase
+                    // 1. Crear usuario en Supabase Auth
                     SupabaseManager.client.auth.signUpWith(Email) {
-                        email = correo
-                        this.password = password
+                        email = correoTxt
+                        password = contrasenaTxt
                     }
 
-                    // Obtener el ID del usuario recién creado
-                    val userId = SupabaseManager.client.auth.currentUserOrNull()?.id
+                    val uid = SupabaseManager.client.auth.currentUserOrNull()?.id
 
-                    if (userId != null) {
-                        // 2. Crear el objeto para la base de datos (Tabla Administrador)
+                    if (uid != null) {
+                        // CORRECCIÓN AQUÍ: Se cambiaron los parámetros a minúsculas para que coincidan con AdminProfile.kt
                         val nuevoAdmin = AdminProfile(
-                            id_Administrador = userId,
-                            Nombres = nombre,
-                            Apellidos = apellidos,
-                            Dni = dni,
-                            Numero = numero,
-                            Correo = correo
+                            id_Administrador = uid,
+                            nombres = nombreTxt,
+                            apellidos = apellidoTxt,
+                            dni = dniTxt,
+                            numero = numeroTxt,
+                            correo = correoTxt
                         )
 
-                        // 3. Insertar en la tabla real de la Database
+                        // 2. Insertar en la tabla Administrador
                         SupabaseManager.client.postgrest["Administrador"].insert(nuevoAdmin)
 
-                        Toast.makeText(this@RegisterAdminActivity, "¡Administrador registrado exitosamente!", Toast.LENGTH_LONG).show()
-                        finish() // Volver al login
+                        Toast.makeText(this@RegisterAdminActivity, "¡Cuenta de Administrador creada!", Toast.LENGTH_SHORT).show()
+
+                        try {
+                            val intent = Intent(this@RegisterAdminActivity, Class.forName("com.example.asistecsr.PerfilAdminActivity"))
+                            startActivity(intent)
+                            finish()
+                        } catch (_: ClassNotFoundException) {
+                            Toast.makeText(this@RegisterAdminActivity, "Registro exitoso en Supabase.", Toast.LENGTH_LONG).show()
+                        }
+
+                    } else {
+                        Toast.makeText(this@RegisterAdminActivity, "Error: No se pudo obtener el ID único.", Toast.LENGTH_LONG).show()
                     }
+
+                } catch (e: io.github.jan.supabase.exceptions.RestException) {
+                    e.printStackTrace()
+                    Toast.makeText(this@RegisterAdminActivity, "Error de Supabase: ${e.error}", Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(this@RegisterAdminActivity, "Error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@RegisterAdminActivity, "Error de Red/Código: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                 } finally {
                     btnCrearCuenta.isEnabled = true
                 }

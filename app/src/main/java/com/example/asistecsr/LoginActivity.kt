@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.launch
@@ -32,17 +33,22 @@ class LoginActivity : AppCompatActivity() {
         val rolSeleccionadoIntent = intent.getStringExtra("ROL_SELECCIONADO") ?: "ESTUDIANTE"
         txtRolSeleccionado.text = rolSeleccionadoIntent
 
-        // Redirección dinámica al registro correspondiente
+        // Redirección dinámica al registro correspondiente usando Class.forName para evitar errores de compilación
         btnRegisterEnviar.setOnClickListener {
-            val destino = when (rolSeleccionadoIntent) {
-                "ADMINISTRADOR" -> RegisterAdminActivity::class.java
-                "PROFESOR" -> RegisterProfesorActivity::class.java
-                else -> RegisterEstudianteActivity::class.java
+            val nombreClase = when (rolSeleccionadoIntent) {
+                "ADMINISTRADOR" -> "com.example.asistecsr.RegisterAdminActivity"
+                "PROFESOR" -> "com.example.asistecsr.RegisterProfesorActivity"
+                else -> "com.example.asistecsr.RegisterEstudianteActivity"
             }
-            startActivity(Intent(this, destino))
+            try {
+                val destino = Class.forName(nombreClase)
+                startActivity(Intent(this, destino))
+            } catch (e: ClassNotFoundException) {
+                Toast.makeText(this, "La pantalla de registro aún no está creada física o correctamente.", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // Lógica de Inicio de Sesión
+        // Lógica de Inicio de Sesión conectada a Supabase
         btnLoginEnviar.setOnClickListener {
             val correo = edtUsuario.text.toString().trim()
             val password = edtContrasena.text.toString().trim()
@@ -65,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     val userId = SupabaseManager.client.auth.currentUserOrNull()?.id
 
                     if (userId != null) {
-                        // 2. Determinar tabla y columna según el rol
+                        // 2. Determinar tabla y columna según el rol seleccionado
                         val (tabla, columnaId) = when (rolSeleccionadoIntent) {
                             "ESTUDIANTE" -> "Estudiantes" to "codigoQr"
                             "PROFESOR" -> "Docentes" to "id_docente"
@@ -73,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                             else -> "Estudiantes" to "codigoQr"
                         }
 
-                        // 3. Consultar a Postgrest de forma segura
+                        // 3. Consultar a Postgrest si el UUID existe en la tabla del rol
                         val result = SupabaseManager.client.postgrest[tabla]
                             .select {
                                 filter {
@@ -86,7 +92,6 @@ class LoginActivity : AppCompatActivity() {
                         if (list.isNotEmpty()) {
                             val usuarioJson = list[0]
 
-                            // Comprobación de estado si existe el campo
                             if (usuarioJson.containsKey("estado")) {
                                 val estaActivo = usuarioJson["estado"]?.jsonPrimitive?.boolean ?: true
                                 if (!estaActivo) {
@@ -98,23 +103,33 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
 
-                            val activityDestino = when (rolSeleccionadoIntent) {
-                                "ESTUDIANTE" -> PerfilEstudianteActivity::class.java
-                                "PROFESOR" -> PerfilDocenteActivity::class.java
-                                "ADMINISTRADOR" -> PerfilAdminActivity::class.java
-                                else -> PerfilEstudianteActivity::class.java
+                            // Redireccionar al perfil correspondiente usando Strings dinámicos
+                            val nombrePerfilClase = when (rolSeleccionadoIntent) {
+                                "ESTUDIANTE" -> "com.example.asistecsr.PerfilEstudianteActivity"
+                                "PROFESOR" -> "com.example.asistecsr.PerfilDocenteActivity"
+                                "ADMINISTRADOR" -> "com.example.asistecsr.PerfilAdminActivity"
+                                else -> "com.example.asistecsr.PerfilEstudianteActivity"
                             }
 
-                            startActivity(Intent(this@LoginActivity, activityDestino))
-                            finish()
+                            try {
+                                val activityDestino = Class.forName(nombrePerfilClase)
+                                startActivity(Intent(this@LoginActivity, activityDestino))
+                                finish()
+                            } catch (e: ClassNotFoundException) {
+                                Toast.makeText(this@LoginActivity, "Login exitoso, pero la pantalla de Perfil no existe todavía.", Toast.LENGTH_LONG).show()
+                            }
+
                         } else {
-                            Toast.makeText(this@LoginActivity, "No tienes registros en la tabla $tabla.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@LoginActivity, "No tienes permisos como $rolSeleccionadoIntent.", Toast.LENGTH_LONG).show()
                             SupabaseManager.client.auth.signOut()
                         }
                     }
+                } catch (e: AuthRestException) {
+                    e.printStackTrace()
+                    Toast.makeText(this@LoginActivity, "Credenciales incorrectas: Verifique su correo o contraseña", Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(this@LoginActivity, "Error de acceso: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, "Error de conexión: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                 } finally {
                     btnLoginEnviar.isEnabled = true
                 }
@@ -122,7 +137,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         txtOlvidaste.setOnClickListener {
-            startActivity(Intent(this, ForgotActivity::class.java))
+            try {
+                val destinoForgot = Class.forName("com.example.asistecsr.ForgotActivity")
+                startActivity(Intent(this, destinoForgot))
+            } catch (e: ClassNotFoundException) {
+                Toast.makeText(this, "La pantalla de recuperación no existe todavía.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

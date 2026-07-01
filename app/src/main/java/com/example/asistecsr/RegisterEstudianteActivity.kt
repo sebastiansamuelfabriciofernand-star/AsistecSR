@@ -25,6 +25,10 @@ class RegisterEstudianteActivity : AppCompatActivity() {
         val idTxtNombre = findViewById<EditText>(R.id.txtRegisterNombre)
         val idTxtApellidos = findViewById<EditText>(R.id.txtRegisterApellidos)
         val idTxtDni = findViewById<EditText>(R.id.txtRegisterDni)
+        val idTxtEdad = findViewById<EditText>(R.id.txtRegisterEdad)
+        val idTxtCiclo = findViewById<EditText>(R.id.txtRegisterCiclo)
+        val idTxtCarrera = findViewById<EditText>(R.id.txtRegisterCarrera)
+        val idTxtTurno = findViewById<EditText>(R.id.txtRegisterTurno)
         val idTxtCorreo = findViewById<EditText>(R.id.txtRegisterCorreo)
         val idTxtContrasena = findViewById<EditText>(R.id.txtRegisterContrasena)
 
@@ -36,12 +40,17 @@ class RegisterEstudianteActivity : AppCompatActivity() {
             val nombreTxt = idTxtNombre.text.toString().trim()
             val apellidoTxt = idTxtApellidos.text.toString().trim()
             val dniTxt = idTxtDni.text.toString().trim()
+            val edadStr = idTxtEdad.text.toString().trim()
+            val cicloStr = idTxtCiclo.text.toString().trim()
+            val carreraTxt = idTxtCarrera.text.toString().trim()
+            val turnoTxt = idTxtTurno.text.toString().trim()
             val correoTxt = idTxtCorreo.text.toString().trim()
             val contrasenaTxt = idTxtContrasena.text.toString().trim()
 
-            // Validaciones básicas de entrada
-            if (nombreTxt.isEmpty() || apellidoTxt.isEmpty() || dniTxt.isEmpty() || correoTxt.isEmpty() || contrasenaTxt.isEmpty()) {
-                Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+            if (nombreTxt.isEmpty() || apellidoTxt.isEmpty() || dniTxt.isEmpty() ||
+                edadStr.isEmpty() || cicloStr.isEmpty() || carreraTxt.isEmpty() ||
+                turnoTxt.isEmpty() || correoTxt.isEmpty() || contrasenaTxt.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -50,39 +59,45 @@ class RegisterEstudianteActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val edadInt = edadStr.toIntOrNull() ?: 0
+            val cicloInt = cicloStr.toIntOrNull() ?: 1
+
             btnCrearCuenta.isEnabled = false
 
             lifecycleScope.launch {
                 try {
-                    // 1. Registrar al usuario en Supabase Auth y guardar la respuesta de inmediato
-                    val response = SupabaseManager.client.auth.signUpWith(Email) {
+                    SupabaseManager.client.auth.signUpWith(Email) {
                         email = correoTxt
                         password = contrasenaTxt
                     }
 
-                    // 2. Extraer el UID directamente de la respuesta del servidor
-                    val uid = response?.id
+                    val uid = SupabaseManager.client.auth.currentUserOrNull()?.id
 
                     if (uid != null) {
-                        // Construimos el objeto UserProfile con los datos ingresados
-                        val nuevoEstudiante = UserProfile(
+                        val nuevoEstudiante = EstudianteModel(
                             codigoQr = uid,
                             nombres = nombreTxt,
                             apellidos = apellidoTxt,
-                            dni = dniTxt, // <-- Aquí aseguramos el envío del DNI a Supabase
+                            dni = dniTxt,
+                            edad = edadInt,
                             email = correoTxt,
-                            edad = 18,
+                            ciclo = cicloInt,
+                            carrera = carreraTxt,
+                            estado = true,
+                            turno = turnoTxt
                         )
 
-                        // 3. Insertar el perfil en la tabla de la Base de Datos 'Estudiantes'
                         SupabaseManager.client.postgrest["Estudiantes"].insert(nuevoEstudiante)
 
-                        Toast.makeText(this@RegisterEstudianteActivity, "¡Cuenta de Alumno creada!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RegisterEstudianteActivity, "¡Cuenta de Alumno creada con éxito!", Toast.LENGTH_SHORT).show()
 
-                        // CAMBIO CLAVE: Pasar directo a la pantalla del perfil de forma limpia
-                        val intent = Intent(this@RegisterEstudianteActivity, PerfilEstudianteActivity::class.java)
-                        startActivity(intent)
-                        finish() // Cerramos el registro para no volver atrás
+                        try {
+                            val intent = Intent(this@RegisterEstudianteActivity, Class.forName("com.example.asistecsr.PerfilEstudianteActivity"))
+                            startActivity(intent)
+                            finish()
+                        } catch (_: ClassNotFoundException) {
+                            Toast.makeText(this@RegisterEstudianteActivity, "Registro exitoso en Supabase.", Toast.LENGTH_LONG).show()
+                        }
 
                     } else {
                         Toast.makeText(this@RegisterEstudianteActivity, "Error: No se pudo obtener el ID único del servidor.", Toast.LENGTH_LONG).show()

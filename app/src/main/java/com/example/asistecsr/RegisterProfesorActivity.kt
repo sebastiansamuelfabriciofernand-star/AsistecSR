@@ -40,7 +40,6 @@ class RegisterProfesorActivity : AppCompatActivity() {
             val emailInstText = edtEmailInst.text.toString().trim()
             val passwordText = edtPassword.text.toString().trim()
 
-            // Validación exhaustiva de los campos fundamentales
             if (nombreText.isEmpty() || emailText.isEmpty() || emailInstText.isEmpty() || passwordText.isEmpty()) {
                 Toast.makeText(this, "Por favor complete todos los datos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -55,21 +54,19 @@ class RegisterProfesorActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    // 1. Registro en la sección de seguridad (Auth) usando el correo personal
                     val userResult = SupabaseManager.client.auth.signUpWith(Email) {
                         email = emailText
                         password = passwordText
                     }
 
-                    // 2. Extracción directa del identificador UID único
                     val userId = userResult?.id
 
                     if (userId != null) {
-                        // Marcadores por defecto lógicos si el usuario los dejó opcionales
-                        val finalEspecialidad = if (especialidadText.isEmpty()) "General" else especialidadText
-                        val finalNumero = if (numeroText.isEmpty()) "000000000" else numeroText
+                        // SOLUCIÓN LINT: Reemplazado por la sugerencia idiomática de Kotlin '.ifEmpty'
+                        val finalEspecialidad = especialidadText.ifEmpty { "General" }
+                        val finalNumero = numeroText.ifEmpty { "000000000" }
 
-                        val nuevoDocente = DocenteProfile(
+                        val nuevoDocente = DocenteModel(
                             idDocente = userId,
                             nombresApellidos = nombreText,
                             especialidad = finalEspecialidad,
@@ -79,12 +76,14 @@ class RegisterProfesorActivity : AppCompatActivity() {
                             carrera = "Por asignar",
                             estado = true
                         )
-                        // 4. Inserción directa en la tabla relacional de Postgres
+
                         SupabaseManager.client.postgrest["Docentes"].insert(nuevoDocente)
 
                         Toast.makeText(this@RegisterProfesorActivity, "¡Cuenta de Docente creada con éxito!", Toast.LENGTH_LONG).show()
                         finish()
                     } else {
+                        // SOLUCIÓN TYPO: Se añade la anotación local para ignorar la advertencia ortográfica de la palabra Supabase
+                        @Suppress("SpellCheckingInspection")
                         Toast.makeText(this@RegisterProfesorActivity, "Error al generar identificador único de Supabase.", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
