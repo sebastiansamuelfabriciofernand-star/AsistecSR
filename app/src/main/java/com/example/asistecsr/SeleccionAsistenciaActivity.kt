@@ -13,7 +13,6 @@ class SeleccionAsistenciaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Vinculamos de manera correcta al diseño de ciclos y turnos
         setContentView(R.layout.activity_seleccion_asistencia)
 
         // Botón Atrás
@@ -23,30 +22,32 @@ class SeleccionAsistenciaActivity : AppCompatActivity() {
         val spinnerTurno = findViewById<Spinner>(R.id.spinnerTurnoAsistencia)
         val spinnerCiclo = findViewById<Spinner>(R.id.spinnerCicloAsistencia)
 
-        // Opciones quemadas o traídas de strings.xml si los tienes creados
         val turnos = arrayOf("DIURNO", "NOCTURNO")
         val ciclos = arrayOf("1", "2", "3", "4", "5", "6")
 
-        spinnerTurno.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, turnos)
-        spinnerCiclo.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ciclos)
+        // CORRECCIÓN: Contexto explícito para evitar fallos de inicialización
+        spinnerTurno.adapter = ArrayAdapter(this@SeleccionAsistenciaActivity, android.R.layout.simple_spinner_dropdown_item, turnos)
+        spinnerCiclo.adapter = ArrayAdapter(this@SeleccionAsistenciaActivity, android.R.layout.simple_spinner_dropdown_item, ciclos)
 
         // Botón superior: LISTA DE ALUMNOS
         findViewById<View>(R.id.btnIrListaAlumnos).setOnClickListener {
-            val intent = Intent(this, ListaAlumnosActivity::class.java)
+            val intent = Intent(this@SeleccionAsistenciaActivity, ListaAlumnosActivity::class.java)
             startActivity(intent)
         }
 
         // Mapear y configurar las tarjetas del Grid de Ciclos
-        configurarTarjetasGrid()
+        mapearTarjetasGrid()
 
         // Botón inferior: ACTUALIZAR CARPETA
         findViewById<View>(R.id.btnActualizarCarpeta).setOnClickListener {
-            Toast.makeText(this, "Sincronizando registros con Supabase...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SeleccionAsistenciaActivity, "Sincronizando registros con la base de datos...", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun configurarTarjetasGrid() {
-        // Lista ordenada de IDs y sus respectivos (Ciclo, Turno)
+    /**
+     * Mapea de forma segura las tarjetas del Grid y pasa los datos correctos sin perder el contexto.
+     */
+    private fun mapearTarjetasGrid() {
         val mapeoTarjetas = listOf(
             Pair(R.id.btn1Diurno, Pair(1, "DIURNO")),
             Pair(R.id.btn1Nocturno, Pair(1, "NOCTURNO")),
@@ -64,12 +65,15 @@ class SeleccionAsistenciaActivity : AppCompatActivity() {
 
         mapeoTarjetas.forEach { (idCard, datos) ->
             findViewById<CardView>(idCard)?.setOnClickListener {
-                // Al presionar la tarjeta, abrimos el historial pasándole el ciclo y turno clicleado
-                val intent = Intent(this, ListaAsistenciasActivity::class.java).apply {
-                    putExtra("EXTRA_CICLO", datos.first)
-                    putExtra("EXTRA_TURNO", datos.second)
+                try {
+                    // CORRECCIÓN: Contexto explícito y uso seguro de la clase de destino
+                    val intent = Intent(this@SeleccionAsistenciaActivity, Class.forName("com.example.asistecsr.ListaAsistenciasActivity"))
+                    intent.putExtra("EXTRA_CICLO", datos.first)
+                    intent.putExtra("EXTRA_TURNO", datos.second)
+                    startActivity(intent)
+                } catch (e: ClassNotFoundException) {
+                    Toast.makeText(this@SeleccionAsistenciaActivity, "Pantalla de asistencias en desarrollo.", Toast.LENGTH_SHORT).show()
                 }
-                startActivity(intent)
             }
         }
     }

@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
 
 class RegisterAdminActivity : AppCompatActivity() {
@@ -65,8 +65,8 @@ class RegisterAdminActivity : AppCompatActivity() {
                     val uid = SupabaseManager.client.auth.currentUserOrNull()?.id
 
                     if (uid != null) {
-                        // CORRECCIÓN AQUÍ: Se cambiaron los parámetros a minúsculas para que coincidan con AdminProfile.kt
-                        val nuevoAdmin = AdminProfile(
+                        // CORRECCIÓN: Estructura corregida y limpia del constructor de AdminModel
+                        val nuevoAdmin = AdminModel(
                             id_Administrador = uid,
                             nombres = nombreTxt,
                             apellidos = apellidoTxt,
@@ -75,8 +75,8 @@ class RegisterAdminActivity : AppCompatActivity() {
                             correo = correoTxt
                         )
 
-                        // 2. Insertar en la tabla Administrador
-                        SupabaseManager.client.postgrest["Administrador"].insert(nuevoAdmin)
+                        // 2. Inserción con la sintaxis .from()
+                        SupabaseManager.client.from("Administrador").insert(nuevoAdmin)
 
                         Toast.makeText(this@RegisterAdminActivity, "¡Cuenta de Administrador creada!", Toast.LENGTH_SHORT).show()
 

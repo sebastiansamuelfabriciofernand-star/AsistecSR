@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
 
 class RegisterEstudianteActivity : AppCompatActivity() {
@@ -47,15 +47,16 @@ class RegisterEstudianteActivity : AppCompatActivity() {
             val correoTxt = idTxtCorreo.text.toString().trim()
             val contrasenaTxt = idTxtContrasena.text.toString().trim()
 
+            // CORRECCIÓN: Contexto explícito para evitar la desorientación del compilador
             if (nombreTxt.isEmpty() || apellidoTxt.isEmpty() || dniTxt.isEmpty() ||
                 edadStr.isEmpty() || cicloStr.isEmpty() || carreraTxt.isEmpty() ||
                 turnoTxt.isEmpty() || correoTxt.isEmpty() || contrasenaTxt.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RegisterEstudianteActivity, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (contrasenaTxt.length < 6) {
-                Toast.makeText(this, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RegisterEstudianteActivity, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -87,7 +88,8 @@ class RegisterEstudianteActivity : AppCompatActivity() {
                             turno = turnoTxt
                         )
 
-                        SupabaseManager.client.postgrest["Estudiantes"].insert(nuevoEstudiante)
+                        // CORRECCIÓN: Migración de .postgrest[...] a la API estándar .from(...)
+                        SupabaseManager.client.from("Estudiantes").insert(nuevoEstudiante)
 
                         Toast.makeText(this@RegisterEstudianteActivity, "¡Cuenta de Alumno creada con éxito!", Toast.LENGTH_SHORT).show()
 
@@ -96,7 +98,7 @@ class RegisterEstudianteActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         } catch (_: ClassNotFoundException) {
-                            Toast.makeText(this@RegisterEstudianteActivity, "Registro exitoso en Supabase.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@RegisterEstudianteActivity, "Registro exitoso en la base de datos.", Toast.LENGTH_LONG).show()
                         }
 
                     } else {
@@ -105,7 +107,7 @@ class RegisterEstudianteActivity : AppCompatActivity() {
 
                 } catch (e: io.github.jan.supabase.exceptions.RestException) {
                     e.printStackTrace()
-                    Toast.makeText(this@RegisterEstudianteActivity, "Error de Supabase: ${e.error}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@RegisterEstudianteActivity, "Error de base de datos: ${e.error}", Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Toast.makeText(this@RegisterEstudianteActivity, "Error de Red/Código: ${e.localizedMessage}", Toast.LENGTH_LONG).show()

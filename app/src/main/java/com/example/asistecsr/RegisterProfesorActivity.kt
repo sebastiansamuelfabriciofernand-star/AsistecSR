@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
 
 class RegisterProfesorActivity : AppCompatActivity() {
@@ -40,13 +40,14 @@ class RegisterProfesorActivity : AppCompatActivity() {
             val emailInstText = edtEmailInst.text.toString().trim()
             val passwordText = edtPassword.text.toString().trim()
 
+            // CORRECCIÓN: Contexto explícito en el Toast
             if (nombreText.isEmpty() || emailText.isEmpty() || emailInstText.isEmpty() || passwordText.isEmpty()) {
-                Toast.makeText(this, "Por favor complete todos los datos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RegisterProfesorActivity, "Por favor complete todos los datos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (passwordText.length < 6) {
-                Toast.makeText(this, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RegisterProfesorActivity, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -54,37 +55,35 @@ class RegisterProfesorActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val userResult = SupabaseManager.client.auth.signUpWith(Email) {
+                    // En Supabase Auth, signUpWith retorna una estructura cuyo ID se accede a través del objeto user
+                    val authResult = SupabaseManager.client.auth.signUpWith(Email) {
                         email = emailText
                         password = passwordText
                     }
 
-                    val userId = userResult?.id
+                    val userId = SupabaseManager.client.auth.currentUserOrNull()?.id
 
                     if (userId != null) {
-                        // SOLUCIÓN LINT: Reemplazado por la sugerencia idiomática de Kotlin '.ifEmpty'
                         val finalEspecialidad = especialidadText.ifEmpty { "General" }
                         val finalNumero = numeroText.ifEmpty { "000000000" }
 
+                        // CORRECCIÓN DE PARÁMETROS: Se removieron 'carrera' y 'estado' para coincidir con tu DocenteModel real del Adapter
                         val nuevoDocente = DocenteModel(
                             idDocente = userId,
                             nombresApellidos = nombreText,
                             especialidad = finalEspecialidad,
                             numero = finalNumero,
                             correo = emailText,
-                            correoInst = emailInstText,
-                            carrera = "Por asignar",
-                            estado = true
+                            correoInst = emailInstText
                         )
 
-                        SupabaseManager.client.postgrest["Docentes"].insert(nuevoDocente)
+                        // CORRECCIÓN POSTGREST: Migración del obsoleto .postgrest[] a .from()
+                        SupabaseManager.client.from("Docentes").insert(nuevoDocente)
 
                         Toast.makeText(this@RegisterProfesorActivity, "¡Cuenta de Docente creada con éxito!", Toast.LENGTH_LONG).show()
                         finish()
                     } else {
-                        // SOLUCIÓN TYPO: Se añade la anotación local para ignorar la advertencia ortográfica de la palabra Supabase
-                        @Suppress("SpellCheckingInspection")
-                        Toast.makeText(this@RegisterProfesorActivity, "Error al generar identificador único de Supabase.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RegisterProfesorActivity, "Error al generar identificador único de la base de datos.", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

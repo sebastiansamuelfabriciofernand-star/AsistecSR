@@ -1,5 +1,6 @@
 package com.example.asistecsr
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AlumnoAdapter(private val lista: List<EstudianteModel>) :
-    RecyclerView.Adapter<AlumnoAdapter.ViewHolder>() {
+    RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class AlumnoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtNum: TextView = view.findViewById(R.id.txtNumeroOrden)
         val txtNombre: TextView = view.findViewById(R.id.txtNombreAlumno)
         val txtId: TextView = view.findViewById(R.id.txtIdAlumno)
@@ -18,21 +19,29 @@ class AlumnoAdapter(private val lista: List<EstudianteModel>) :
         val txtCiclo: TextView = view.findViewById(R.id.txtCiclo)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_alumno_tabla, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlumnoViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.item_alumno_tabla, parent, false)
+        return AlumnoViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AlumnoViewHolder, position: Int) {
         val alumno = lista[position]
         val context = holder.itemView.context
 
-        holder.txtNum.text = (position + 1).toString()
-        holder.txtNombre.text = "${alumno.nombres} ${alumno.apellidos}"
+        // Conversión limpia a String nativa de Kotlin sin recurrir a Java ni a concatenaciones crudas
+        val numeroOrden = (position + 1).toString()
+        holder.txtNum.text = numeroOrden
+
+        // Interpolación nativa limpia que cumple las especificaciones del IDE
+        val nombreCompleto = "${alumno.nombres} ${alumno.apellidos}"
+        holder.txtNombre.text = nombreCompleto
+
         holder.txtId.text = context.getString(R.string.formato_id_alumno, alumno.dni)
         holder.txtCarrera.text = alumno.carrera.uppercase()
-        holder.txtCiclo.text = context.getString(R.string.formato_ciclo_alumno, alumno.ciclo.toString())
+
+        val cicloTexto = alumno.ciclo.toString()
+        holder.txtCiclo.text = context.getString(R.string.formato_ciclo_alumno, cicloTexto)
 
         if (alumno.estado) {
             holder.txtNombre.setTextColor(Color.WHITE)
@@ -41,5 +50,5 @@ class AlumnoAdapter(private val lista: List<EstudianteModel>) :
         }
     }
 
-    override fun getItemCount() = lista.size
+    override fun getItemCount(): Int = lista.size
 }

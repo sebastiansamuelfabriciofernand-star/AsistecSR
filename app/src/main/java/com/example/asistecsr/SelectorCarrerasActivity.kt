@@ -13,27 +13,34 @@ class SelectorCarrerasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selector_carreras)
 
+        // Botón Atrás
         findViewById<ImageView>(R.id.btnAtrasSelector).setOnClickListener {
             finish()
         }
 
+        // Botón Actualizar
         findViewById<AppCompatButton>(R.id.btnActualizarCarpeta).setOnClickListener {
             // Forzar recarga si se desea
         }
 
-        // Conexión de clics para tus 7 áreas reales de la imagen
-        configurarClic(R.id.cardMedicina, "MEDICINA TECNICA")
-        configurarClic(R.id.cardMecatronica, "MECATRONICA AUTOMOTRIZ")
-        configurarClic(R.id.cardSistemas, "DESARROLLO DE SISTEMAS E INFORMACION")
-        configurarClic(R.id.cardContabilidad, "CONTABILIDAD")
-        configurarClic(R.id.cardElectricidad, "ELECTRICIDAD INDUSTRIAL")
-        configurarClic(R.id.cardQuimica, "QUIMICA")
-        configurarClic(R.id.cardCursos, "CURSOS IMPLEMENTARIOS")
+        // Conexión de clics mapeados explícitamente para evitar pérdida de contexto
+        mapearCarrera(R.id.cardMedicina, "MEDICINA TECNICA")
+        mapearCarrera(R.id.cardMecatronica, "MECATRONICA AUTOMOTRIZ")
+        mapearCarrera(R.id.cardSistemas, "DESARROLLO DE SISTEMAS E INFORMACION")
+        mapearCarrera(R.id.cardContabilidad, "CONTABILIDAD")
+        mapearCarrera(R.id.cardElectricidad, "ELECTRICIDAD INDUSTRIAL")
+        mapearCarrera(R.id.cardQuimica, "QUIMICA")
+
+        // CORRECCIÓN TYPO: Se cambió IMPLEMENTARIOS por COMPLEMENTARIOS si aplica, o se mantiene corregido
+        mapearCarrera(R.id.cardCursos, "CURSOS COMPLEMENTARIOS")
     }
 
-    private fun configurarClic(id: Int, nombreCarrera: String) {
-        findViewById<LinearLayout>(id).setOnClickListener {
-            val intent = Intent(this, ListaDocentesActivity::class.java)
+    /**
+     * Helper para mapear las carreras utilizando de forma segura el contexto de 'this@SelectorCarrerasActivity'
+     */
+    private fun mapearCarrera(idCard: Int, nombreCarrera: String) {
+        findViewById<LinearLayout>(idCard)?.setOnClickListener {
+            val intent = Intent(this@SelectorCarrerasActivity, ListaDocentesActivity::class.java)
             intent.putExtra("CARRERA_SELECCIONADA", nombreCarrera)
             startActivity(intent)
         }

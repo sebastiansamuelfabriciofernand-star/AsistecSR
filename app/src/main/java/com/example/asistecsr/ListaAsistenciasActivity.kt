@@ -37,7 +37,8 @@ class ListaAsistenciasActivity : AppCompatActivity() {
         rvListaAsistencias = findViewById(R.id.rvListaAsistencias)
         txtFechaSeleccionada = findViewById(R.id.txtFechaSeleccionada)
 
-        rvListaAsistencias.layoutManager = LinearLayoutManager(this)
+        // CORRECCIÓN: Contexto explícito de la Activity para el LayoutManager
+        rvListaAsistencias.layoutManager = LinearLayoutManager(this@ListaAsistenciasActivity)
 
         findViewById<View>(R.id.btnAtrasAsistencias).setOnClickListener {
             finish()
@@ -48,13 +49,12 @@ class ListaAsistenciasActivity : AppCompatActivity() {
         val formatoFecha = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         fechaSeleccionada = formatoFecha.format(calendario.time)
 
-        // CORREGIDO: Uso seguro de String Resources sin concatenar
         txtFechaSeleccionada.text = getString(R.string.formato_fecha_mostrar, fechaSeleccionada)
 
         // 4. Selector de fecha integrado al hacer clic sobre el TextView
         txtFechaSeleccionada.setOnClickListener {
             DatePickerDialog(
-                this,
+                this@ListaAsistenciasActivity,
                 { _, yearSelected, monthSelected, daySelected ->
                     calendario.set(Calendar.YEAR, yearSelected)
                     calendario.set(Calendar.MONTH, monthSelected)
@@ -77,7 +77,7 @@ class ListaAsistenciasActivity : AppCompatActivity() {
 
     private fun cargarHistorialAsistencias() {
         if (cicloFiltro == -1 || turnoFiltro.isEmpty()) {
-            Toast.makeText(this, getString(R.string.error_filtros_invalidos), Toast.LENGTH_LONG).show()
+            Toast.makeText(this@ListaAsistenciasActivity, getString(R.string.error_filtros_invalidos), Toast.LENGTH_LONG).show()
             return
         }
 
@@ -90,7 +90,7 @@ class ListaAsistenciasActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                // Consulta limpia apuntando a la tabla física en singular: "Asistencia"
+                // Consulta limpia apuntando a la tabla "Asistencia" en Supabase
                 val listaAsistencias = SupabaseManager.client.from("Asistencia").select {
                     filter {
                         eq("ciclo", cicloFiltro)
@@ -100,7 +100,7 @@ class ListaAsistenciasActivity : AppCompatActivity() {
                     }
                 }.decodeList<AsistenciaModel>()
 
-                // Actualizar el RecyclerView
+                // Vinculación con tu AsistenciaAdapter existente
                 rvListaAsistencias.adapter = AsistenciaAdapter(listaAsistencias)
 
                 if (listaAsistencias.isEmpty()) {
@@ -109,7 +109,6 @@ class ListaAsistenciasActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                // CORREGIDO: Marcador de posición para strings dinámicos
                 val mensajeError = getString(R.string.error_traer_asistencias, e.localizedMessage ?: "")
                 Toast.makeText(this@ListaAsistenciasActivity, mensajeError, Toast.LENGTH_LONG).show()
             }

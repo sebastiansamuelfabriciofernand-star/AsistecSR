@@ -2,44 +2,51 @@
 <resources>
     <string name="app_name">AsisteCSR</string>
 
+    <!-- Lista de Asistencia -->
     <string name="titulo_lista_asistencia">LISTA DE ASISTENCIA</string>
     <string name="etiqueta_filtros">FILTROS:</string>
     <string name="btn_lista_alumnos">LISTA DE ALUMNOS</string>
     <string name="btn_lista_docentes">LISTA DE DOCENTES</string>
     <string name="btn_modo_mantenimiento">MODO MANTENIMIENTO</string>
 
+    <!-- Panel de Administración -->
     <string name="titulo_panel_administracion">PANEL DE ADMINISTRACIÓN</string>
     <string name="info_admin_nombre">NOMBRES: Administrador</string>
     <string name="info_admin_rol">ROL: Soporte General</string>
     <string name="titulo_metricas_globales">MÉTRICAS GLOBALES DEL SISTEMA:</string>
-    <string name="marcador_vacio">...</string>
+    <!-- SOLUCIÓN LINTER: Se reemplaza "..." por el carácter tipográfico de elipsis oficial -->
+    <string name="marcador_vacio">…</string>
     <string name="txt_alumnos_registrados">ALUMNOS\nREGISTRADOS</string>
     <string name="txt_docentes_activos">DOCENTES\nACTIVOS</string>
     <string name="txt_porcentaje_servidor">99.9%</string>
     <string name="txt_estado_servidor">ESTADO DEL\nSERVIDOR</string>
+    <string name="formato_porcentaje">%1$d%%</string>
+    <!-- Perfil Estudiante (Renombrados para evitar colisiones con otros archivos del proyecto) -->
+    <string name="estudiante_nombres">NOMBRES: %1$s</string>
+    <string name="estudiante_apellidos">APELLIDOS: %1$s</string>
+    <string name="estudiante_dni">DNI: %1$s</string>
+    <string name="estudiante_email">E-MAIL: %1$s</string>
 
-    <string name="perfil_nombres">NOMBRES: %1$s</string>
-    <string name="perfil_apellidos">APELLIDOS: %1$s</string>
-    <string name="perfil_dni">DNI: %1$s</string>
-    <string name="perfil_email">E-MAIL: %1$s</string>
-
+    <!-- Perfil Docente -->
     <string name="perfil_docente_numero">NUMERO: %1$s</string>
     <string name="perfil_docente_email_inst">CORREO INST: %1$s</string>
     <string name="perfil_docente_email_personal">CORREO PERS: %1$s</string>
 
+    <!-- Mensajes de Error y Formatos de Fecha -->
     <string name="formato_fecha_mostrar">📅 Fecha: %1$s (Cambiar)</string>
     <string name="error_filtros_invalidos">Error: Filtros de ciclo o turno inválidos.</string>
     <string name="error_sesion_docente">Error: No se encontró una sesión activa de docente.</string>
     <string name="sin_asistencias_hoy">No hay asistencias tomadas por usted en este grupo hoy.</string>
     <string name="error_traer_asistencias">Error al traer asistencias: %1$s</string>
 
+    <!-- Formatos de Listas y Métricas de Alumnos -->
     <string name="formato_id_alumno">ID: %1$s</string>
     <string name="formato_ciclo_alumno">Ciclo: %1$s</string>
-
     <string name="formato_total_alumnos">TOTAL DE ALUMNOS\n%1$d</string>
     <string name="formato_activos">ACTIVOS\n%1$d</string>
     <string name="formato_inactivos">INACTIVOS\n%1$d</string>
 
+    <!-- Arrays de Opciones para Spinners -->
     <string-array name="opciones_turno">
         <item>TODOS</item>
         <item>DIURNO</item>

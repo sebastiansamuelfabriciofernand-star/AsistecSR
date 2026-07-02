@@ -1,10 +1,11 @@
 package com.example.asistecsr
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import android.view.View
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -26,29 +27,27 @@ class AsisteCSR : AppCompatActivity() {
 
         lifecycleScope.launch {
             for (progreso in 1..100) {
-                txtPorcentaje.text = "$progreso%"
+                // SOLUCIÓN: Llamamos a tu nuevo recurso string usando el contexto explícito de la Activity
+                txtPorcentaje.text = this@AsisteCSR.getString(R.string.formato_porcentaje, progreso)
 
                 when {
-                    // Tramo 1: De 1% a 33% se va llenando la primera barra progresivamente
                     progreso <= 33 -> {
                         val nivel = (progreso * 10000) / 33
                         barra1.foreground?.level = nivel
                     }
-                    // Tramo 2: De 34% a 66% la primera se queda llena y la segunda avanza
                     progreso in 34..66 -> {
                         barra1.foreground?.level = 10000
                         val nivel = ((progreso - 33) * 10000) / 33
                         barra2.foreground?.level = nivel
                     }
-                    // Tramo 3: De 67% a 100% las dos primeras llenas y la tercera avanza
-                    progreso > 66 -> {
+                    else -> {
                         barra1.foreground?.level = 10000
                         barra2.foreground?.level = 10000
                         val nivel = ((progreso - 66) * 10000) / 34
                         barra3.foreground?.level = nivel
                     }
                 }
-                // Velocidad del contador (40 milisegundos por número)
+                // Velocidad del contador
                 delay(40)
             }
 
@@ -57,11 +56,11 @@ class AsisteCSR : AppCompatActivity() {
             barra2.foreground?.level = 10000
             barra3.foreground?.level = 10000
 
-            // NUEVO: Esperamos un instante corto y saltamos al menú de perfiles
             delay(300)
-            val intent = android.content.Intent(this@AsisteCSR, MenuActivity::class.java)
+
+            val intent = Intent(this@AsisteCSR, MenuActivity::class.java)
             startActivity(intent)
-            finish() // Cerramos la pantalla de carga para que no regrese al pulsar atrás
+            finish()
         }
     }
 }

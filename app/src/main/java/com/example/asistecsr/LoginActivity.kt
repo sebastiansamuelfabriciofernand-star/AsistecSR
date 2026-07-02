@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.from // 👈 CORRECCIÓN: Importación moderna correcta
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val rolSeleccionadoIntent = intent.getStringExtra("ROL_SELECCIONADO") ?: "ESTUDIANTE"
         txtRolSeleccionado.text = rolSeleccionadoIntent
 
-        // Redirección dinámica al registro correspondiente usando Class.forName para evitar errores de compilación
+        // Redirección dinámica al registro correspondiente
         btnRegisterEnviar.setOnClickListener {
             val nombreClase = when (rolSeleccionadoIntent) {
                 "ADMINISTRADOR" -> "com.example.asistecsr.RegisterAdminActivity"
@@ -79,15 +79,14 @@ class LoginActivity : AppCompatActivity() {
                             else -> "Estudiantes" to "codigoQr"
                         }
 
-                        // 3. Consultar a Postgrest si el UUID existe en la tabla del rol
-                        val result = SupabaseManager.client.postgrest[tabla]
-                            .select {
-                                filter {
-                                    eq(columnaId, userId)
-                                }
+                        // 3. CORRECCIÓN: Se cambia el viejo .postgrest[tabla] por .from(tabla)
+                        val response = SupabaseManager.client.from(tabla).select {
+                            filter {
+                                eq(columnaId, userId)
                             }
+                        }
 
-                        val list = result.decodeList<JsonObject>()
+                        val list = response.decodeList<JsonObject>()
 
                         if (list.isNotEmpty()) {
                             val usuarioJson = list[0]
@@ -103,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
 
-                            // Redireccionar al perfil correspondiente usando Strings dinámicos
+                            // Redireccionar al perfil correspondiente
                             val nombrePerfilClase = when (rolSeleccionadoIntent) {
                                 "ESTUDIANTE" -> "com.example.asistecsr.PerfilEstudianteActivity"
                                 "PROFESOR" -> "com.example.asistecsr.PerfilDocenteActivity"

@@ -38,7 +38,12 @@ class ListaDocentesActivity : AppCompatActivity() {
         txtTituloCarreraDinamico.text = carreraSeleccionada.uppercase()
 
         btnAsistenciasTop.setOnClickListener {
-            startActivity(Intent(this, ListaAlumnosActivity::class.java))
+            // Intenta abrir ListaAlumnosActivity de forma segura
+            try {
+                startActivity(Intent(this, ListaAlumnosActivity::class.java))
+            } catch (e: Exception) {
+                Toast.makeText(this, "La pantalla de alumnos no está disponible.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnAtras.setOnClickListener { finish() }
@@ -54,26 +59,26 @@ class ListaDocentesActivity : AppCompatActivity() {
     ) {
         lifecycleScope.launch {
             try {
-                // Usamos el cliente real que tienes en tu proyecto
-                // Cambia la línea en tu función cargarDocentesDesdeBaseDatos:
-                val listaDocentes = SupabaseManager.client.from("Docentes") // Cambiado a "Docentes" con D mayúscula
-                    .select {
-                        filter {
-                            eq("carrera", carrera)
-                        }
+                // CONSULTA IMPRECCINDIBLE: Sintaxis .from() limpia y mapeo directo a DocenteModel
+                val response = SupabaseManager.client.from("Docentes").select {
+                    filter {
+                        eq("carrera", carrera)
                     }
-                    .decodeList<DocenteProfile>()
+                }
 
+                val listaDocentes = response.decodeList<DocenteModel>()
+
+                // Modificamos los contadores de la interfaz con los tamaños reales de la lista
                 txtTotal.text = listaDocentes.size.toString()
                 txtAct.text = listaDocentes.size.toString()
                 txtInactivosVista.text = "0"
 
+                // Vinculación al adaptador corregido que usa DocenteModel
                 docenteAdapter = DocenteAdapter(listaDocentes)
                 rvDocentes.adapter = docenteAdapter
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                // Aquí verás el error real en pantalla si algo falla
                 Toast.makeText(this@ListaDocentesActivity, "Error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         }

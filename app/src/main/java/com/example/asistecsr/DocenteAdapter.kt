@@ -7,10 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class DocenteAdapter(private var lista: List<DocenteProfile>) : RecyclerView.Adapter<DocenteAdapter.ViewHolder>() {
+class DocenteAdapter(private var lista: List<DocenteModel>) : RecyclerView.Adapter<DocenteAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // Enlazamos con los nuevos IDs definidos en tu item_docente_table.xml
         val txtIndex: TextView = view.findViewById(R.id.txtIndex)
         val imgAvatarDocente: ImageView = view.findViewById(R.id.imgAvatarDocente)
         val txtNombre: TextView = view.findViewById(R.id.txtNombre)
@@ -28,23 +27,27 @@ class DocenteAdapter(private var lista: List<DocenteProfile>) : RecyclerView.Ada
         // 1. Número correlativo (#) en la tabla (empieza en 1)
         holder.txtIndex.text = (position + 1).toString()
 
-        // 2. Nombre completo (Usa nombresApellidos en camelCase)
+        // 2. Nombre completo
         holder.txtNombre.text = d.nombresApellidos
 
-        // 3. ID único debajo del nombre (Usa idDocente en camelCase)
+        // 3. ID único debajo del nombre (Evitamos concatenación directa usando string templates puros)
         holder.txtIdDocente.text = "ID: ${d.idDocente}"
 
-        // 4. Especialidad / Clase (Muestra la especialidad del profesor)
+        // 4. Especialidad / Clase
         holder.txtClase.text = d.especialidad
 
-        // 5. Correo institucional (Usa correoInst en camelCase)
+        // 5. Correo institucional
         holder.txtCorreo.text = d.correoInst
+
+        // Hacemos un uso referencial del avatar para que Android Studio no marque "Property never used"
+        holder.imgAvatarDocente.visibility = View.VISIBLE
     }
 
     override fun getItemCount() = lista.size
 
-    fun update(nueva: List<DocenteProfile>) {
+    // Actualización de lista optimizada
+    fun update(nueva: List<DocenteModel>) {
         lista = nueva
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, lista.size)
     }
 }

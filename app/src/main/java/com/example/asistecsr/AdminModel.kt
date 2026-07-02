@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import java.io.Serializable as JavaSerializable
 
 @Serializable
-data class AdminProfile(
+data class AdminModel(
     @SerialName("id_Administrador") val id_Administrador: String,
     @SerialName("Nombres") val nombres: String,     // ✓ Cambiado a minúscula
     @SerialName("Apellidos") val apellidos: String, // ✓ Cambiado a minúscula
