@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.github.jan.supabase.postgrest.from // 👈 IMPORTACIÓN CORRECTA PARA EL BOM ACTUAL
+import io.github.jan.supabase.postgrest.from // 👈 CORRECCIÓN: Importación correcta
 import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -70,7 +70,7 @@ class ListaAlumnosActivity : AppCompatActivity() {
     private fun cargarTodosLosAlumnosDeBaseDeDatos() {
         lifecycleScope.launch {
             try {
-                // CORRECCIÓN SINTAXIS .from()
+                // CORRECCIÓN: Uso de la sintaxis moderna .from()
                 val lista = SupabaseManager.client.from("Estudiantes").select {
                     order("Apellidos", Order.ASCENDING)
                 }.decodeList<EstudianteModel>()
@@ -99,6 +99,7 @@ class ListaAlumnosActivity : AppCompatActivity() {
             listaFiltrada = listaFiltrada.filter { it.carrera.equals(carreraSeleccionada, ignoreCase = true) }
         }
 
+        // CORRECCIÓN: Se cambió "cycleSeleccionado" por "cicloSeleccionado"
         if (cicloSeleccionado != "Todos") {
             val cicloInt = cicloSeleccionado.toIntOrNull()
             if (cicloInt != null) {

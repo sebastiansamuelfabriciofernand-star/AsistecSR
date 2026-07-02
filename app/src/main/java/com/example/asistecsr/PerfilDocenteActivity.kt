@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.from // 👈 CORRECCIÓN: Importación agregada
+import io.github.jan.supabase.postgrest.from // 👈 CORRECCIÓN: Importación agregada para que no dé error
 import kotlinx.coroutines.launch
 
 class PerfilDocenteActivity : AppCompatActivity() {
 
-    // Variable global para almacenar el ID del docente logueado
+    // Variable para guardar el ID del docente logueado y pasárselo al escáner
     private var docenteLogueadoId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class PerfilDocenteActivity : AppCompatActivity() {
             cargarDatosDesdeSupabase(txtNombreDocente, txtPerfilNumero, txtPerfilCorreoInst, txtPerfilCorreoPersonal)
         }
 
-        // CORRECCIÓN: Ahora sí le pasamos el ID del docente al escáner para que pueda registrar
+        // CORRECCIÓN: Ahora el botón le pasa el ID real del docente al escáner para que pueda registrar
         btnIniciarEscaner.setOnClickListener {
             val intent = Intent(this, EscanerQrActivity::class.java).apply {
                 putExtra("EXTRA_CICLO", 1)

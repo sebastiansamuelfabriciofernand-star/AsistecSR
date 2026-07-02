@@ -10,7 +10,5 @@ data class DocenteModel(
     @SerialName("especialidad") val especialidad: String,
     @SerialName("numero") val numero: String,
     @SerialName("correo") val correo: String,
-    @SerialName("correo_inst") val correoInst: String,
-    @SerialName("estado") val estado: Boolean = true,
-    @SerialName("carrera") val carrera: String
-) : java.io.Serializable // <- ESTO SOLUCIONA LOS PRIMEROS 4 ERRORES DE GOLPE
+    @SerialName("correo_inst") val correoInst: String
+) : java.io.Serializable
