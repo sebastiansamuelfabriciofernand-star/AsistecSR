@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.graphics.createBitmap
 import androidx.lifecycle.lifecycleScope
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -21,69 +20,72 @@ import java.util.Locale
 
 class PerfilEstudianteActivity : AppCompatActivity() {
 
-    private var dniEstudiante: String? = null
+    // Variable global para almacenar el UUID del QR único y pasarlo al maximizado
+    private var codigoQrEstudiante: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_perfil_estudiante)
+        setContentView(R.layout.activity_perfil_estudiante) //[cite: 2]
 
-        val btnAtras = findViewById<ImageView>(R.id.btnAtrasPerfilEstudiante)
-        val btnMostrarQR = findViewById<AppCompatButton>(R.id.btnMostrarQR)
-        val btnRealizarConsulta = findViewById<AppCompatButton>(R.id.btnRealizarConsulta)
-        val ivCodigoQR = findViewById<ImageView>(R.id.ivCodigoQR)
+        val btnAtras = findViewById<ImageView>(R.id.btnAtrasPerfilEstudiante) //[cite: 2]
+        val btnMostrarQR = findViewById<AppCompatButton>(R.id.btnMostrarQR) //[cite: 2]
+        val btnRealizarConsulta = findViewById<AppCompatButton>(R.id.btnRealizarConsulta) //[cite: 2]
+        val ivCodigoQR = findViewById<ImageView>(R.id.ivCodigoQR) //[cite: 2]
 
-        val txtPerfilNombre = findViewById<TextView>(R.id.txtPerfilNombre)
-        val txtPerfilApellidos = findViewById<TextView>(R.id.txtPerfilApellidos)
-        val txtPerfilDni = findViewById<TextView>(R.id.txtPerfilDni)
-        val txtPerfilEmail = findViewById<TextView>(R.id.txtPerfilEmail)
+        val txtPerfilNombre = findViewById<TextView>(R.id.txtPerfilNombre) //[cite: 2]
+        val txtPerfilApellidos = findViewById<TextView>(R.id.txtPerfilApellidos) //[cite: 2]
+        val txtPerfilDni = findViewById<TextView>(R.id.txtPerfilDni) //[cite: 2]
+        val txtPerfilEmail = findViewById<TextView>(R.id.txtPerfilEmail) //[cite: 2]
 
         btnAtras.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            onBackPressedDispatcher.onBackPressed() //[cite: 2]
         }
 
+        // 1. CARGA DE DATOS: Llamamos a tu método asíncrono original conectado a tu Supabase Manager[cite: 2]
         cargarDatosDelAlumno(txtPerfilNombre, txtPerfilApellidos, txtPerfilDni, txtPerfilEmail, ivCodigoQR)
 
+        // 2. DIÁLOGO MAXIMIZADO: Al presionar, abre tu dialog_qr_maximizada.xml con el UUID[cite: 2]
         btnMostrarQR.setOnClickListener {
-            val dni = dniEstudiante
-            if (!dni.isNullOrEmpty()) {
-                val qrBitmapGrande = generarCodigoQR(dni, 500)
+            val qrUnico = codigoQrEstudiante // Usa la variable global con el UUID de la base de datos[cite: 2]
+            if (!qrUnico.isNullOrEmpty()) { //[cite: 2]
+                val qrBitmapGrande = generarCodigoQR(qrUnico, 500) //[cite: 2]
 
-                if (qrBitmapGrande != null) {
-                    val dialog = Dialog(this@PerfilEstudianteActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-                    dialog.setContentView(R.layout.dialog_qr_maximizada)
+                if (qrBitmapGrande != null) { //[cite: 2]
+                    val dialog = Dialog(this@PerfilEstudianteActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) //[cite: 2]
+                    dialog.setContentView(R.layout.dialog_qr_maximizada) //[cite: 2]
 
-                    val ivQrGigante = dialog.findViewById<ImageView>(R.id.ivQrGigante)
-                    val btnCerrarQrGigante = dialog.findViewById<AppCompatButton>(R.id.btnCerrarQrGigante)
+                    val ivQrGigante = dialog.findViewById<ImageView>(R.id.ivQrGigante) //[cite: 2]
+                    val btnCerrarQrGigante = dialog.findViewById<AppCompatButton>(R.id.btnCerrarQrGigante) //[cite: 2]
 
-                    ivQrGigante.setImageBitmap(qrBitmapGrande)
+                    ivQrGigante.setImageBitmap(qrBitmapGrande) //[cite: 2]
 
                     btnCerrarQrGigante.setOnClickListener {
-                        btnCerrarQrGigante.animate()
-                            .scaleX(0.92f)
-                            .scaleY(0.92f)
-                            .setDuration(80)
+                        btnCerrarQrGigante.animate() //[cite: 2]
+                            .scaleX(0.92f) //[cite: 2]
+                            .scaleY(0.92f) //[cite: 2]
+                            .setDuration(80) //[cite: 2]
                             .withEndAction {
-                                btnCerrarQrGigante.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .setDuration(80)
+                                btnCerrarQrGigante.animate() //[cite: 2]
+                                    .scaleX(1f) //[cite: 2]
+                                    .scaleY(1f) //[cite: 2]
+                                    .setDuration(80) //[cite: 2]
                                     .withEndAction {
-                                        dialog.dismiss()
+                                        dialog.dismiss() //[cite: 2]
                                     }
                             }
                     }
 
-                    dialog.show()
+                    dialog.show() //[cite: 2]
                 } else {
-                    Toast.makeText(this@PerfilEstudianteActivity, "Error al expandir el código QR.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PerfilEstudianteActivity, "Error al expandir el código QR.", Toast.LENGTH_SHORT).show() //[cite: 2]
                 }
             } else {
-                Toast.makeText(this@PerfilEstudianteActivity, "La información aún no se ha descargado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PerfilEstudianteActivity, "La información aún no se ha descargado", Toast.LENGTH_SHORT).show() //[cite: 2]
             }
         }
 
         btnRealizarConsulta.setOnClickListener {
-            Toast.makeText(this@PerfilEstudianteActivity, "Abriendo solicitudes de justificación...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@PerfilEstudianteActivity, "Abriendo solicitudes de justificación...", Toast.LENGTH_SHORT).show() //[cite: 2]
         }
     }
 
@@ -94,41 +96,45 @@ class PerfilEstudianteActivity : AppCompatActivity() {
         txtEmail: TextView,
         ivQr: ImageView
     ) {
-        val userId = SupabaseManager.client.auth.currentUserOrNull()?.id
+        val userId = SupabaseManager.client.auth.currentUserOrNull()?.id //[cite: 2]
 
-        if (userId != null) {
-            lifecycleScope.launch {
+        if (userId != null) { //[cite: 2]
+            lifecycleScope.launch { //[cite: 2]
                 try {
-                    val response = SupabaseManager.client.from("Estudiantes")
-                        .select { filter { eq("codigoQr", userId) } }
+                    val response = SupabaseManager.client.from("Estudiantes") //[cite: 2]
+                        .select { filter { eq("codigoQr", userId) } } //[cite: 2]
 
-                    val perfilAlumno = response.decodeSingle<EstudianteModel>()
+                    val perfilAlumno = response.decodeSingle<EstudianteModel>() //[cite: 2]
 
-                    dniEstudiante = perfilAlumno.codigoQr
+                    // Guardamos el UUID largo maestro en la variable global para usarlo en el QR grande[cite: 2]
+                    codigoQrEstudiante = perfilAlumno.codigoQr
 
-                    txtNombre.text = getString(R.string.estudiante_nombres, perfilAlumno.nombres.uppercase(Locale.getDefault()))
-                    txtApellidos.text = getString(R.string.estudiante_apellidos, perfilAlumno.apellidos.uppercase(Locale.getDefault()))
-                    txtDni.text = getString(R.string.estudiante_dni, perfilAlumno.dni)
-                    txtEmail.text = getString(R.string.estudiante_email, perfilAlumno.email)
+                    // Pintamos los datos en tu interfaz gráfica[cite: 2]
+                    txtNombre.text = getString(R.string.estudiante_nombres, perfilAlumno.nombres.uppercase(Locale.getDefault())) //[cite: 2]
+                    txtApellidos.text = getString(R.string.estudiante_apellidos, perfilAlumno.apellidos.uppercase(Locale.getDefault())) //[cite: 2]
+                    txtDni.text = getString(R.string.estudiante_dni, perfilAlumno.dni) //[cite: 2]
+                    txtEmail.text = getString(R.string.estudiante_email, perfilAlumno.email) //[cite: 2]
 
-                    if (perfilAlumno.codigoQr.isNotEmpty()) {
-                        val qrBitmap = generarCodigoQR(perfilAlumno.codigoQr, 350)
-                        if (qrBitmap != null) {
-                            ivQr.setImageBitmap(qrBitmap)
+                    // Generamos el QR mediano para el perfil usando el UUID único[cite: 2]
+                    if (perfilAlumno.codigoQr.isNotEmpty()) { //[cite: 2]
+                        val qrBitmap = generarCodigoQR(perfilAlumno.codigoQr, 350) //[cite: 2]
+                        if (qrBitmap != null) { //[cite: 2]
+                            ivQr.setImageBitmap(qrBitmap) //[cite: 2]
                         }
                     }
 
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this@PerfilEstudianteActivity, "Error de enlace: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace() //[cite: 2]
+                    Toast.makeText(this@PerfilEstudianteActivity, "Error de enlace: ${e.localizedMessage}", Toast.LENGTH_LONG).show() //[cite: 2]
                 }
             }
         } else {
-            Toast.makeText(this@PerfilEstudianteActivity, "Sesión no válida.", Toast.LENGTH_LONG).show()
-            finish()
+            Toast.makeText(this@PerfilEstudianteActivity, "Sesión no válida.", Toast.LENGTH_LONG).show() //[cite: 2]
+            finish() //[cite: 2]
         }
     }
 
+    // CORRECCIÓN DE COMPILACIÓN: Método universal usando setPixel estándar sin errores de matrices
     private fun generarCodigoQR(contenido: String, dimensiones: Int): Bitmap? {
         return try {
             val bitMatrix: BitMatrix = MultiFormatWriter().encode(
@@ -136,23 +142,23 @@ class PerfilEstudianteActivity : AppCompatActivity() {
                 BarcodeFormat.QR_CODE,
                 dimensiones,
                 dimensiones
-            )
-            val ancho = bitMatrix.width
-            val alto = bitMatrix.height
+            ) //[cite: 2]
+            val ancho = bitMatrix.width //[cite: 2]
+            val alto = bitMatrix.height //[cite: 2]
 
-            val bitmap = createBitmap(ancho, alto, Bitmap.Config.RGB_565)
+            val bitmap = Bitmap.createBitmap(ancho, alto, Bitmap.Config.RGB_565)
 
-            for (x in 0 until ancho) {
-                for (y in 0 until alto) {
-                    val pixelNegro = bitMatrix.get(x, y)
-                    // CORRECCIÓN: Uso nativo de setPixel para evitar errores por falta de imports KTX de operador
+            for (x in 0 until ancho) { //[cite: 2]
+                for (y in 0 until alto) { //[cite: 2]
+                    val pixelNegro = bitMatrix.get(x, y) //[cite: 2]
+                    // Solución definitiva al error de operadores usando el método setPixel estándar de Android
                     bitmap.setPixel(x, y, if (pixelNegro) Color.BLACK else Color.WHITE)
                 }
             }
-            bitmap
+            bitmap //[cite: 2]
         } catch (e: Exception) {
-            e.printStackTrace()
-            null
+            e.printStackTrace() //[cite: 2]
+            null //[cite: 2]
         }
     }
 }
