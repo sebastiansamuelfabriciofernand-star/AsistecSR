@@ -14,12 +14,12 @@ class SelectorCarrerasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_selector_carreras)
 
         // Botón Atrás
-        findViewById<ImageView>(R.id.btnAtrasSelector).setOnClickListener {
+        findViewById<ImageView>(R.id.btnAtrasSelector).setupClickAnimation {
             finish()
         }
 
         // Botón Actualizar
-        findViewById<AppCompatButton>(R.id.btnActualizarCarpeta).setOnClickListener {
+        findViewById<AppCompatButton>(R.id.btnActualizarCarpeta).setupClickAnimation {
             // Forzar recarga si se desea
         }
 
@@ -39,7 +39,7 @@ class SelectorCarrerasActivity : AppCompatActivity() {
      * Helper para mapear las carreras utilizando de forma segura el contexto de 'this@SelectorCarrerasActivity'
      */
     private fun mapearCarrera(idCard: Int, nombreCarrera: String) {
-        findViewById<LinearLayout>(idCard)?.setOnClickListener {
+        findViewById<LinearLayout>(idCard)?.setupClickAnimation {
             val intent = Intent(this@SelectorCarrerasActivity, ListaDocentesActivity::class.java)
             intent.putExtra("CARRERA_SELECCIONADA", nombreCarrera)
             startActivity(intent)

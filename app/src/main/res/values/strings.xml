@@ -14,14 +14,12 @@
     <string name="info_admin_nombre">NOMBRES: Administrador</string>
     <string name="info_admin_rol">ROL: Soporte General</string>
     <string name="titulo_metricas_globales">MÉTRICAS GLOBALES DEL SISTEMA:</string>
-    <!-- SOLUCIÓN LINTER: Se reemplaza "..." por el carácter tipográfico de elipsis oficial -->
-    <string name="marcador_vacio">…</string>
     <string name="txt_alumnos_registrados">ALUMNOS\nREGISTRADOS</string>
     <string name="txt_docentes_activos">DOCENTES\nACTIVOS</string>
     <string name="txt_porcentaje_servidor">99.9%</string>
     <string name="txt_estado_servidor">ESTADO DEL\nSERVIDOR</string>
-    <string name="formato_porcentaje">%1$d%%</string>
-    <!-- Perfil Estudiante (Renombrados para evitar colisiones con otros archivos del proyecto) -->
+
+    <!-- Perfil Estudiante -->
     <string name="estudiante_nombres">NOMBRES: %1$s</string>
     <string name="estudiante_apellidos">APELLIDOS: %1$s</string>
     <string name="estudiante_dni">DNI: %1$s</string>
@@ -32,34 +30,112 @@
     <string name="perfil_docente_email_inst">CORREO INST: %1$s</string>
     <string name="perfil_docente_email_personal">CORREO PERS: %1$s</string>
 
-    <!-- Mensajes de Error y Formatos de Fecha -->
+    <!-- Mensajes y Formatos -->
     <string name="formato_fecha_mostrar">📅 Fecha: %1$s (Cambiar)</string>
     <string name="error_filtros_invalidos">Error: Filtros de ciclo o turno inválidos.</string>
     <string name="error_sesion_docente">Error: No se encontró una sesión activa de docente.</string>
     <string name="sin_asistencias_hoy">No hay asistencias tomadas por usted en este grupo hoy.</string>
     <string name="error_traer_asistencias">Error al traer asistencias: %1$s</string>
-
-    <!-- Formatos de Listas y Métricas de Alumnos -->
     <string name="formato_id_alumno">ID: %1$s</string>
     <string name="formato_ciclo_alumno">Ciclo: %1$s</string>
     <string name="formato_total_alumnos">TOTAL DE ALUMNOS\n%1$d</string>
     <string name="formato_activos">ACTIVOS\n%1$d</string>
     <string name="formato_inactivos">INACTIVOS\n%1$d</string>
+    <string name="formato_porcentaje">%1$d%%</string>
+    <string name="marcador_vacio">…</string>
 
-    <!-- Arrays de Opciones para Spinners -->
-    <string-array name="opciones_turno">
-        <item>TODOS</item>
+    <!-- Menu Principal (Originales) -->
+    <string name="menu_titulo">ASISTENCIAS-DSI</string>
+    <string name="menu_profesor">PROFESOR</string>
+    <string name="menu_estudiante">ESTUDIANTE</string>
+    <string name="menu_administrador">ADMINISTRADOR</string>
+    <string name="menu_eslogan">IMPULSANDO TU FUTURO DIGITAL</string>
+    <string name="menu_selecciona">Selecciona tu perfil       ⚠️</string>
+    <string name="menu_frase_footer">Conectando conocimiento, tecnología y futuro</string>
+
+    <!-- Login (Originales con correcciones de typo si aplicaba) -->
+    <string name="desc_logo_institucional">Logo Institucional</string>
+    <string name="desc_logo_dsi">Logo DSI</string>
+    <string name="label_acceso_herramientas">Acceso a código y herramientas</string>
+    <string name="titulo_registro_docente">REGISTRO DE DOCENTE</string>
+    <string name="titulo_registro_estudiante">REGISTRO DE ESTUDIANTE</string>
+    <string name="titulo_registro_admin">REGISTRO DE ADMINISTRADOR</string>
+    <string name="btn_iniciar_sesion">INICIAR SESIÓN</string>
+    <string name="hint_usuario_login">ejm: profesor@gmial.com</string>
+    <string name="hint_contrasena_login">contraseña(maximo 6 dijitos)</string>
+    <string name="txt_olvidaste_clave">¿Olvidaste tu contraseña?</string>
+    <string name="btn_registrarse">REGISTRARSE</string>
+    <string name="txt_accesos_protegidos">Todos los accesos estan protegidos</string>
+
+    <!-- Bottom Sheet Login -->
+    <string name="title_saved_account">¿Con qué cuenta deseas ingresar?</string>
+    <string name="label_saved_account">Cuenta guardada</string>
+    <string name="btn_manual_entry">Ingresar con otra cuenta</string>
+    <string name="title_save_access">¿Guardar acceso?</string>
+    <string name="msg_save_access">¿Deseas guardar tu correo y contraseña para entrar más rápido la próxima vez?</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_not_now">Ahora no</string>
+
+    <!-- Registro Labels -->
+    <string name="desc_volver">Volver</string>
+    <string name="label_nombres">Nombres</string>
+    <string name="hint_nombres">Ej. Carlos Augusto</string>
+    <string name="label_apellidos">Apellidos</string>
+    <string name="hint_apellidos">Ej. Ramos Flores</string>
+    <string name="label_dni">Documento Nacional de Identidad (DNI)</string>
+    <string name="hint_dni">Ej. 74859612</string>
+    <string name="label_edad">Edad</string>
+    <string name="hint_edad">Ej. 19</string>
+    <string name="label_ciclo_academico">Ciclo Académico</string>
+    <string name="label_carrera_profesional">Carrera Profesional</string>
+    <string name="label_turno">Turno</string>
+    <string name="label_correo_electronico">Correo Electrónico</string>
+    <string name="hint_correo_prefijo">ejemplo</string>
+    <string name="label_contrasena_cuenta">Contraseña de la Cuenta</string>
+    <string name="hint_min_caracteres">Mínimo 6 caracteres</string>
+    <string name="btn_registrar_estudiante">REGISTRAR ESTUDIANTE</string>
+    <string name="label_nombre_completo">Nombre Completo</string>
+    <string name="hint_nombre_profesor">Ej. Juan Pérez Celis</string>
+    <string name="label_especialidad">Especialidad / Curso</string>
+    <string name="label_numero_telefonico">Número Telefónico</string>
+    <string name="hint_numero_telefonico">Ej. 987654321</string>
+    <string name="label_correo_personal">Correo Personal (Profesor)</string>
+    <string name="label_correo_institucional">Correo Institucional (Instituto)</string>
+    <string name="hint_profesor_prefijo">profesor</string>
+    <string name="btn_registrar_docente">REGISTRAR DOCENTE</string>
+    <string name="btn_crear_cuenta">CREAR CUENTA</string>
+
+    <!-- Selección Curso -->
+    <string name="sel_curso_titulo">Seleccionar curso</string>
+    <string name="separador_item">  |  </string>
+    <string name="sel_curso_separador">  |  </string>
+
+    <!-- Arrays -->
+    <string-array name="registro_turnos">
         <item>DIURNO</item>
         <item>NOCTURNO</item>
     </string-array>
-
-    <string-array name="opciones_ciclo">
-        <item>TODOS</item>
+    <string-array name="registro_ciclos">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+    <string-array name="registro_carreras">
+        <item>DESARROLLO DE SISTEMAS</item>
+        <item>ENFERMERÍA TÉCNICA</item>
+        <item>CONTABILIDAD</item>
+        <item>ELECTRÓNICA INDUSTRIAL</item>
+        <item>MECÁNICA DE PRODUCCIÓN</item>
+    </string-array>
+    <string-array name="dominios_correo">
+        <item>\@gmail.com</item>
+        <item>\@hotmail.com</item>
+        <item>\@outlook.com</item>
+        <item>\@yahoo.com</item>
+        <item>\@estudiante.edu.pe</item>
+        <item>\@colegio.edu.pe</item>
     </string-array>
 </resources>

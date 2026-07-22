@@ -8,7 +8,9 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingVertical="12dp"
-    android:background="#070714"
+    android:paddingHorizontal="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/fondo_item_asistencia"
     tools:ignore="HardcodedText,ContentDescription">
 
     <TextView
@@ -31,8 +33,8 @@
             android:id="@+id/imgAlumnoAvatar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@android:drawable/ic_menu_report_image"
-            android:padding="6dp"
+            android:src="@drawable/ic_usuarios"
+            android:padding="8dp"
             app:tint="#FFFFFF"/>
     </androidx.cardview.widget.CardView>
 
@@ -66,10 +68,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Programación"
+        android:visibility="visible"
         android:textColor="#8A8A9E"
-        android:textSize="13sp"
-        android:gravity="start" />
+        android:textSize="12sp"
+        android:layout_marginEnd="8dp"
+        tools:text="Programación" />
 
     <TextView
         android:id="@+id/btnEstadoAsistencia"

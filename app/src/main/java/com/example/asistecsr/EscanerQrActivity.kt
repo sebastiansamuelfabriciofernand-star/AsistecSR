@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
@@ -35,23 +36,30 @@ class EscanerQrActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var previewView: PreviewView
+    private lateinit var txtContador: TextView
 
     private var cicloFiltro: Int = -1
     private var turnoFiltro: String = ""
     private var idDocenteActual: String = ""
+    private var idCursoActual: String = ""
+    private var nombreCursoActual: String = ""
     private var isScanning = true
+    private var contadorSesion: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_escaner_qr)
 
         // 1. Recibir parámetros enviados desde el Perfil del Docente
-        cicloFiltro = intent.getIntExtra("EXTRA_CICLO", 1)
+        cicloFiltro = intent.getIntExtra("EXTRA_CICLO",1)
         turnoFiltro = intent.getStringExtra("EXTRA_TURNO") ?: "DIURNO"
+
         idDocenteActual = intent.getStringExtra("EXTRA_ID_DOCENTE") ?: ""
+        idCursoActual = intent.getStringExtra("EXTRA_ID_CURSO") ?: ""
 
         previewView = findViewById(R.id.previewViewCamara)
-        findViewById<ImageView>(R.id.btnAtrasEscaner).setOnClickListener { finish() }
+        txtContador = findViewById(R.id.txtContadorAsistencias)
+        findViewById<ImageView>(R.id.btnAtrasEscaner).setupClickAnimation { finish() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -124,30 +132,80 @@ class EscanerQrActivity : AppCompatActivity() {
         }
     }
 
+
     private fun registrarAsistencia(valorQrEscaneado: String) {
         lifecycleScope.launch {
             try {
-                // Validación para asegurar de que el ID del docente no viaje vacío
-                if (idDocenteActual.isEmpty()) {
+                // Validación para asegurar de que el ID del docente e ID del curso no viajen vacíos
+                if (idDocenteActual.isEmpty() || idCursoActual.isEmpty()) {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@EscanerQrActivity, "Error: No se obtuvo el ID del docente", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@EscanerQrActivity, "Error: No se obtuvo el ID del docente o curso", Toast.LENGTH_LONG).show()
                         finish()
                     }
                     return@launch
                 }
 
                 val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val fechaHoy = sdf.format(Calendar.getInstance().time)
+                val estudianteResponse = SupabaseManager.client
+                    .from("Estudiantes")
+                    .select {
+                        filter {
+                            eq("codigoQr", valorQrEscaneado)
+                        }
+                    }
 
-                // IMPORTANTE: Asegúrate de que "C001" exista físicamente en tu tabla "Cursos"
-                val idCursoExistente = "C001"
+                val listaEstudiantes = estudianteResponse.decodeList<EstudianteModel>()
+
+                if (listaEstudiantes.isEmpty()) {
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@EscanerQrActivity,
+                            "❌ QR no pertenece a ningún estudiante",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        isScanning = true
+                    }
+
+                    return@launch
+                }
+                val estudiante = listaEstudiantes.first()
+                val fechaHoy = sdf.format(Calendar.getInstance().time)
+                val asistenciaExistente = SupabaseManager.client
+                    .from("Asistencia")
+                    .select {
+                        filter {
+                            eq("codigoQr", valorQrEscaneado)
+                            eq("fecha", fechaHoy)
+                            eq("id_curso", idCursoActual)
+                        }
+                    }
+
+                val listaAsistencia = asistenciaExistente.decodeList<AsistenciaModel>()
+
+                if (listaAsistencia.isNotEmpty()) {
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@EscanerQrActivity,
+                            "⚠ Este estudiante ya registró asistencia hoy.",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        isScanning = true
+                    }
+
+                    return@launch
+                }
+
 
                 // CORRECCIÓN DEFINITIVA basada en image_85d368.png (Mapeo completo de columnas)
                 val datosAsistencia = buildJsonObject {
                     put("fecha", fechaHoy)
                     put("codigoQr", valorQrEscaneado)
                     put("id_docente", idDocenteActual)
-                    put("id_curso", idCursoExistente)
+                    put("id_curso", idCursoActual)
                     put("ciclo", cicloFiltro)    // 👈 Agregado según tu esquema físico
                     put("turno", turnoFiltro)    // 👈 Agregado según tu esquema físico
                 }
@@ -155,8 +213,16 @@ class EscanerQrActivity : AppCompatActivity() {
                 // Inserción limpia en la tabla "Asistencia"
                 SupabaseManager.client.from("Asistencia").insert(datosAsistencia)
 
+                contadorSesion++
+
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@EscanerQrActivity, "¡Asistencia registrada exitosamente!", Toast.LENGTH_LONG).show()
+                    txtContador.text = "Asistencias: $contadorSesion"
+
+                    Toast.makeText(
+                        this@EscanerQrActivity,
+                        "✅ ${estudiante.nombres} ${estudiante.apellidos}\nAsistencia registrada",
+                        Toast.LENGTH_LONG
+                    ).show()
                     // Esperar 2 segundos antes de volver a activar la cámara
                     delay(2000)
                     isScanning = true

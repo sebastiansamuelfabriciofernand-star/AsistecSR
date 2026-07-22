@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class AlumnoAdapter(private val lista: List<EstudianteModel>) :
-    RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder>() {
+class AlumnoAdapter(
+    private val lista: List<EstudianteModel>,
+    private val onEstadoChanged: (EstudianteModel, Boolean) -> Unit
+) : RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder>() {
 
     class AlumnoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtNum: TextView = view.findViewById(R.id.txtNumeroOrden)
@@ -17,6 +20,7 @@ class AlumnoAdapter(private val lista: List<EstudianteModel>) :
         val txtId: TextView = view.findViewById(R.id.txtIdAlumno)
         val txtCarrera: TextView = view.findViewById(R.id.txtCarrera)
         val txtCiclo: TextView = view.findViewById(R.id.txtCiclo)
+        val swEstado: SwitchCompat = view.findViewById(R.id.swEstadoAlumno)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlumnoViewHolder {
@@ -38,15 +42,28 @@ class AlumnoAdapter(private val lista: List<EstudianteModel>) :
         holder.txtNombre.text = nombreCompleto
 
         holder.txtId.text = context.getString(R.string.formato_id_alumno, alumno.dni)
-        holder.txtCarrera.text = alumno.carrera.uppercase()
+        holder.txtCarrera.text = alumno.carrera?.uppercase() ?: ""
 
         val cicloTexto = alumno.ciclo.toString()
         holder.txtCiclo.text = context.getString(R.string.formato_ciclo_alumno, cicloTexto)
 
+        // Configurar Switch
+        holder.swEstado.setOnCheckedChangeListener(null) // Evitar disparos accidentales
+        holder.swEstado.isChecked = alumno.estado
+        
         if (alumno.estado) {
             holder.txtNombre.setTextColor(Color.WHITE)
         } else {
             holder.txtNombre.setTextColor(Color.GRAY)
+        }
+
+        holder.swEstado.setOnCheckedChangeListener { _, isChecked ->
+            onEstadoChanged(alumno, isChecked)
+            if (isChecked) {
+                holder.txtNombre.setTextColor(Color.WHITE)
+            } else {
+                holder.txtNombre.setTextColor(Color.GRAY)
+            }
         }
     }
 

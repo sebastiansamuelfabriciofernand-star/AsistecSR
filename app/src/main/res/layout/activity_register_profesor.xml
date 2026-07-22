@@ -21,13 +21,13 @@
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
             android:src="@android:drawable/ic_menu_revert"
-            android:contentDescription="Volver" />
+            android:contentDescription="@string/desc_volver" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="REGISTRO DE DOCENTE"
+            android:text="@string/titulo_registro_docente"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -48,115 +48,153 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre Completo"
+                android:text="@string/label_nombre_completo"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/edtProfesorNombre"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. Juan Pérez Celis"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_nombre_profesor"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="textPersonName"
+                android:autofillHints="name"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Especialidad / Curso"
+                android:text="@string/label_especialidad"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/edtProfesorEspecialidad"
+            <Spinner
+                android:id="@+id/spinnerProfesorEspecialidad"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. Ingeniería de Software"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_spinner_moderno"
                 android:paddingHorizontal="16dp"
-                android:inputType="text"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Número Telefónico"
+                android:text="@string/label_numero_telefonico"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/edtProfesorNumero"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. 987654321"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_numero_telefonico"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="phone"
+                android:autofillHints="phoneNumber"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo Personal (Profesor)"
+                android:text="@string/label_correo_personal"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/edtProfesorEmail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="ejemplo@gmail.com"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
-                android:paddingHorizontal="16dp"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp"/>
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/edtProfesorEmailPrefijo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_edittext_moderno"
+                    android:hint="@string/hint_correo_prefijo"
+                    android:textColorHint="#4E4E61"
+                    android:textColor="#FFFFFF"
+                    android:paddingHorizontal="12dp"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:autofillHints="emailAddress"/>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
+                <Spinner
+                    android:id="@+id/spinnerProfesorEmailDominio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="130dp"
+                    android:background="@drawable/fondo_spinner_moderno"
+                    android:paddingHorizontal="8dp"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo Institucional (Colegio)"
+                android:text="@string/label_correo_institucional"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/edtProfesorEmailInst"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="profesor@colegio.edu.pe"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
-                android:paddingHorizontal="16dp"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp"/>
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/edtProfesorEmailInstPrefijo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_edittext_moderno"
+                    android:hint="@string/hint_profesor_prefijo"
+                    android:textColorHint="#4E4E61"
+                    android:textColor="#FFFFFF"
+                    android:paddingHorizontal="12dp"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:autofillHints="emailAddress"/>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
+                <Spinner
+                    android:id="@+id/spinnerProfesorEmailInstDominio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="140dp"
+                    android:background="@drawable/fondo_spinner_moderno"
+                    android:paddingHorizontal="8dp"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Contraseña de la Cuenta"
+                android:text="@string/label_contrasena_cuenta"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/edtProfesorPassword"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Mínimo 6 caracteres"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_min_caracteres"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="textPassword"
+                android:autofillHints="password"
                 android:layout_marginBottom="30dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -164,7 +202,7 @@
                 android:layout_width="240dp"
                 android:layout_height="50dp"
                 android:background="@drawable/fondo_btn_volver"
-                android:text="REGISTRAR DOCENTE"
+                android:text="@string/btn_registrar_docente"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:layout_marginBottom="24dp"/>

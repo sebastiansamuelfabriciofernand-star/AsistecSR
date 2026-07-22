@@ -37,55 +37,55 @@ class PerfilEstudianteActivity : AppCompatActivity() {
         val txtPerfilDni = findViewById<TextView>(R.id.txtPerfilDni) //[cite: 2]
         val txtPerfilEmail = findViewById<TextView>(R.id.txtPerfilEmail) //[cite: 2]
 
-        btnAtras.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed() //[cite: 2]
+        btnAtras.setupClickAnimation {
+            onBackPressedDispatcher.onBackPressed()
         }
 
-        // 1. CARGA DE DATOS: Llamamos a tu método asíncrono original conectado a tu Supabase Manager[cite: 2]
+        // 1. CARGA DE DATOS: Llamamos a tu método asíncrono original conectado a tu Supabase Manager
         cargarDatosDelAlumno(txtPerfilNombre, txtPerfilApellidos, txtPerfilDni, txtPerfilEmail, ivCodigoQR)
 
-        // 2. DIÁLOGO MAXIMIZADO: Al presionar, abre tu dialog_qr_maximizada.xml con el UUID[cite: 2]
-        btnMostrarQR.setOnClickListener {
-            val qrUnico = codigoQrEstudiante // Usa la variable global con el UUID de la base de datos[cite: 2]
-            if (!qrUnico.isNullOrEmpty()) { //[cite: 2]
-                val qrBitmapGrande = generarCodigoQR(qrUnico, 500) //[cite: 2]
+        // 2. DIÁLOGO MAXIMIZADO: Al presionar, abre tu dialog_qr_maximizada.xml con el UUID
+        btnMostrarQR.setupClickAnimation {
+            val qrUnico = codigoQrEstudiante // Usa la variable global con el UUID de la base de datos
+            if (!qrUnico.isNullOrEmpty()) {
+                val qrBitmapGrande = generarCodigoQR(qrUnico, 500)
 
-                if (qrBitmapGrande != null) { //[cite: 2]
-                    val dialog = Dialog(this@PerfilEstudianteActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) //[cite: 2]
-                    dialog.setContentView(R.layout.dialog_qr_maximizada) //[cite: 2]
+                if (qrBitmapGrande != null) {
+                    val dialog = Dialog(this@PerfilEstudianteActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+                    dialog.setContentView(R.layout.dialog_qr_maximizada)
 
-                    val ivQrGigante = dialog.findViewById<ImageView>(R.id.ivQrGigante) //[cite: 2]
-                    val btnCerrarQrGigante = dialog.findViewById<AppCompatButton>(R.id.btnCerrarQrGigante) //[cite: 2]
+                    val ivQrGigante = dialog.findViewById<ImageView>(R.id.ivQrGigante)
+                    val btnCerrarQrGigante = dialog.findViewById<AppCompatButton>(R.id.btnCerrarQrGigante)
 
-                    ivQrGigante.setImageBitmap(qrBitmapGrande) //[cite: 2]
+                    ivQrGigante.setImageBitmap(qrBitmapGrande)
 
-                    btnCerrarQrGigante.setOnClickListener {
-                        btnCerrarQrGigante.animate() //[cite: 2]
-                            .scaleX(0.92f) //[cite: 2]
-                            .scaleY(0.92f) //[cite: 2]
-                            .setDuration(80) //[cite: 2]
+                    btnCerrarQrGigante.setupClickAnimation {
+                        btnCerrarQrGigante.animate()
+                            .scaleX(0.92f)
+                            .scaleY(0.92f)
+                            .setDuration(80)
                             .withEndAction {
-                                btnCerrarQrGigante.animate() //[cite: 2]
-                                    .scaleX(1f) //[cite: 2]
-                                    .scaleY(1f) //[cite: 2]
-                                    .setDuration(80) //[cite: 2]
+                                btnCerrarQrGigante.animate()
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(80)
                                     .withEndAction {
-                                        dialog.dismiss() //[cite: 2]
+                                        dialog.dismiss()
                                     }
                             }
                     }
 
-                    dialog.show() //[cite: 2]
+                    dialog.show()
                 } else {
-                    Toast.makeText(this@PerfilEstudianteActivity, "Error al expandir el código QR.", Toast.LENGTH_SHORT).show() //[cite: 2]
+                    Toast.makeText(this@PerfilEstudianteActivity, "Error al expandir el código QR.", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this@PerfilEstudianteActivity, "La información aún no se ha descargado", Toast.LENGTH_SHORT).show() //[cite: 2]
+                Toast.makeText(this@PerfilEstudianteActivity, "La información aún no se ha descargado", Toast.LENGTH_SHORT).show()
             }
         }
 
-        btnRealizarConsulta.setOnClickListener {
-            Toast.makeText(this@PerfilEstudianteActivity, "Abriendo solicitudes de justificación...", Toast.LENGTH_SHORT).show() //[cite: 2]
+        btnRealizarConsulta.setupClickAnimation {
+            Toast.makeText(this@PerfilEstudianteActivity, "Abriendo solicitudes de justificación...", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -110,14 +110,14 @@ class PerfilEstudianteActivity : AppCompatActivity() {
                     codigoQrEstudiante = perfilAlumno.codigoQr
 
                     // Pintamos los datos en tu interfaz gráfica[cite: 2]
-                    txtNombre.text = getString(R.string.estudiante_nombres, perfilAlumno.nombres.uppercase(Locale.getDefault())) //[cite: 2]
-                    txtApellidos.text = getString(R.string.estudiante_apellidos, perfilAlumno.apellidos.uppercase(Locale.getDefault())) //[cite: 2]
-                    txtDni.text = getString(R.string.estudiante_dni, perfilAlumno.dni) //[cite: 2]
-                    txtEmail.text = getString(R.string.estudiante_email, perfilAlumno.email) //[cite: 2]
+                    txtNombre.text = getString(R.string.estudiante_nombres, perfilAlumno.nombres?.uppercase(Locale.getDefault()) ?: "")
+                    txtApellidos.text = getString(R.string.estudiante_apellidos, perfilAlumno.apellidos?.uppercase(Locale.getDefault()) ?: "")
+                    txtDni.text = getString(R.string.estudiante_dni, perfilAlumno.dni ?: "")
+                    txtEmail.text = getString(R.string.estudiante_email, perfilAlumno.email ?: "")
 
-                    // Generamos el QR mediano para el perfil usando el UUID único[cite: 2]
-                    if (perfilAlumno.codigoQr.isNotEmpty()) { //[cite: 2]
-                        val qrBitmap = generarCodigoQR(perfilAlumno.codigoQr, 350) //[cite: 2]
+                    // Generamos el QR mediano para el perfil usando el UUID único
+                    if (!perfilAlumno.codigoQr.isNullOrEmpty()) {
+                        val qrBitmap = generarCodigoQR(perfilAlumno.codigoQr, 350)
                         if (qrBitmap != null) { //[cite: 2]
                             ivQr.setImageBitmap(qrBitmap) //[cite: 2]
                         }

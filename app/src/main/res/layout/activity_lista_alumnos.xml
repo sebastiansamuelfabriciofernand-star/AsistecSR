@@ -60,24 +60,14 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:weightSum="2">
-
-            <Spinner
-                android:id="@+id/spinnerCarrera"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.2"
-                android:background="#1B1E36"
-                android:layout_marginEnd="5dp"/>
+            android:layout_marginTop="10dp">
 
             <Spinner
                 android:id="@+id/spinnerCiclo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
                 android:background="#1B1E36"
-                android:layout_marginStart="5dp"/>
+                android:paddingHorizontal="12dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -189,34 +179,22 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutPaginacion"
+        app:layout_constraintBottom_toTopOf="@id/btnExportarListaAlumnos"
         app:layout_constraintTop_toBottomOf="@id/layoutCabeceraTabla"
         tools:listitem="@layout/item_alumno_tabla"/>
 
-    <LinearLayout
-        android:id="@+id/layoutPaginacion"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExportarListaAlumnos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EXPORTAR LISTA"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp"
-            android:textStyle="bold"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="#3B405E"
-            android:layout_marginStart="10dp"/>
-    </LinearLayout>
+        android:background="@drawable/fondo_btn_profesor"
+        android:text="Exportar Lista de Alumnos"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

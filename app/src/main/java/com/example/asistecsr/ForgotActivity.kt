@@ -18,35 +18,13 @@ class ForgotActivity : AppCompatActivity() {
         val btnVolverInicio = findViewById<AppCompatButton>(R.id.btnVolverInicio)
 
         // Acción al pulsar "ENVIAR INSTRUCCIONES"
-        configurarEfectoBoton(btnEnviarInstrucciones) {
+        btnEnviarInstrucciones.setupClickAnimation {
             Toast.makeText(this, "Instrucciones enviadas al correo", Toast.LENGTH_LONG).show()
         }
 
         // Acción al pulsar "VOLVER AL INICIO"
-        configurarEfectoBoton(btnVolverInicio) {
+        btnVolverInicio.setupClickAnimation {
             onBackPressedDispatcher.onBackPressed()
-        }
-    }
-
-    // Animación de escala táctil suave con soporte de accesibilidad
-    @SuppressLint("ClickableViewAccessibility")
-    private fun configurarEfectoBoton(boton: View, accion: () -> Unit) {
-        boton.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.animate().scaleX(0.96f).scaleY(0.96f).setDuration(80).start()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(80).start()
-                    // Corrección de accesibilidad: ejecuta el click nativo
-                    v.performClick()
-                    accion()
-                }
-                MotionEvent.ACTION_CANCEL -> {
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(80).start()
-                }
-            }
-            true
         }
     }
 }

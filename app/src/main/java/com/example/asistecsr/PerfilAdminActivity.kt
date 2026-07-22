@@ -27,19 +27,19 @@ class PerfilAdminActivity : AppCompatActivity() {
         val btnListaDocentes = findViewById<LinearLayout>(R.id.btnListaDocentes)
         val btnModoMantenimiento = findViewById<AppCompatButton>(R.id.btnModoMantenimiento)
 
-        btnAtras.setOnClickListener { finish() }
+        btnAtras.setupClickAnimation { finish() }
 
-        btnListaDocentes.setOnClickListener {
+        btnListaDocentes.setupClickAnimation {
             val intent = Intent(this, SelectorCarrerasActivity::class.java)
             startActivity(intent)
         }
 
-        btnListaAlumnos.setOnClickListener {
-            val intent = Intent(this, ListaAlumnosActivity::class.java)
+        btnListaAlumnos.setupClickAnimation {
+            val intent = Intent(this, SeleccionAlumnosActivity::class.java)
             startActivity(intent)
         }
 
-        btnModoMantenimiento.setOnClickListener {
+        btnModoMantenimiento.setupClickAnimation {
             Toast.makeText(this, "Modo Mantenimiento Activado", Toast.LENGTH_SHORT).show()
         }
 

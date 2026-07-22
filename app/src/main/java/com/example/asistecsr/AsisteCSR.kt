@@ -27,8 +27,8 @@ class AsisteCSR : AppCompatActivity() {
 
         lifecycleScope.launch {
             for (progreso in 1..100) {
-                // SOLUCIÓN: Llamamos a tu nuevo recurso string usando el contexto explícito de la Activity
-                txtPorcentaje.text = this@AsisteCSR.getString(R.string.formato_porcentaje, progreso)
+                // Actualizamos el porcentaje usando el recurso de strings
+                txtPorcentaje.text = getString(R.string.formato_porcentaje, progreso)
 
                 when {
                     progreso <= 33 -> {
@@ -47,7 +47,7 @@ class AsisteCSR : AppCompatActivity() {
                         barra3.foreground?.level = nivel
                     }
                 }
-                // Velocidad del contador
+                // Velocidad del contador (mantenida de tu lógica original)
                 delay(40)
             }
 
@@ -58,6 +58,7 @@ class AsisteCSR : AppCompatActivity() {
 
             delay(300)
 
+            // Pasamos al Menú Principal
             val intent = Intent(this@AsisteCSR, MenuActivity::class.java)
             startActivity(intent)
             finish()

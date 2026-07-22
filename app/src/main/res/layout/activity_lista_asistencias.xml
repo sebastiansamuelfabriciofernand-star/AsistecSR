@@ -104,10 +104,26 @@
         android:id="@+id/rvListaAsistencias"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:paddingHorizontal="16dp"
         android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnDescargarAsistencias"
         app:layout_constraintTop_toBottomOf="@id/layoutCabeceraTabla"
         tools:listitem="@layout/item_alumno_asistencia" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDescargarAsistencias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/fondo_btn_profesor"
+        android:text="Generar Reporte"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

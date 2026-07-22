@@ -3,6 +3,7 @@ package com.example.asistecsr
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
@@ -11,44 +12,32 @@ import androidx.cardview.widget.CardView
 
 class SeleccionAsistenciaActivity : AppCompatActivity() {
 
+    private lateinit var mapeoTarjetas: List<Pair<Int, Pair<Int, String>>>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seleccion_asistencia)
 
         // Botón Atrás
-        findViewById<View>(R.id.btnAtrasSeleccion).setOnClickListener { finish() }
+        findViewById<View>(R.id.btnAtrasSeleccion).setupClickAnimation { finish() }
 
         // Configuración de los Spinners de Filtros superiores
         val spinnerTurno = findViewById<Spinner>(R.id.spinnerTurnoAsistencia)
         val spinnerCiclo = findViewById<Spinner>(R.id.spinnerCicloAsistencia)
 
-        val turnos = arrayOf("DIURNO", "NOCTURNO")
-        val ciclos = arrayOf("1", "2", "3", "4", "5", "6")
+        val turnos = arrayOf("TODOS LOS TURNOS", "DIURNO", "NOCTURNO")
+        val ciclos = arrayOf("TODOS LOS CICLOS", "1", "2", "3", "4", "5", "6")
 
-        // CORRECCIÓN: Contexto explícito para evitar fallos de inicialización
-        spinnerTurno.adapter = ArrayAdapter(this@SeleccionAsistenciaActivity, android.R.layout.simple_spinner_dropdown_item, turnos)
-        spinnerCiclo.adapter = ArrayAdapter(this@SeleccionAsistenciaActivity, android.R.layout.simple_spinner_dropdown_item, ciclos)
+        spinnerTurno.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, turnos)
+        spinnerCiclo.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ciclos)
 
         // Botón superior: LISTA DE ALUMNOS
-        findViewById<View>(R.id.btnIrListaAlumnos).setOnClickListener {
-            val intent = Intent(this@SeleccionAsistenciaActivity, ListaAlumnosActivity::class.java)
-            startActivity(intent)
+        findViewById<View>(R.id.btnIrListaAlumnos).setupClickAnimation {
+            startActivity(Intent(this, ListaAlumnosActivity::class.java))
         }
 
-        // Mapear y configurar las tarjetas del Grid de Ciclos
-        mapearTarjetasGrid()
-
-        // Botón inferior: ACTUALIZAR CARPETA
-        findViewById<View>(R.id.btnActualizarCarpeta).setOnClickListener {
-            Toast.makeText(this@SeleccionAsistenciaActivity, "Sincronizando registros con la base de datos...", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    /**
-     * Mapea de forma segura las tarjetas del Grid y pasa los datos correctos sin perder el contexto.
-     */
-    private fun mapearTarjetasGrid() {
-        val mapeoTarjetas = listOf(
+        // Definir el mapeo de tarjetas
+        mapeoTarjetas = listOf(
             Pair(R.id.btn1Diurno, Pair(1, "DIURNO")),
             Pair(R.id.btn1Nocturno, Pair(1, "NOCTURNO")),
             Pair(R.id.btn2Diurno, Pair(2, "DIURNO")),
@@ -63,18 +52,42 @@ class SeleccionAsistenciaActivity : AppCompatActivity() {
             Pair(R.id.btn6Nocturno, Pair(6, "NOCTURNO"))
         )
 
-        mapeoTarjetas.forEach { (idCard, datos) ->
-            findViewById<CardView>(idCard)?.setOnClickListener {
-                try {
-                    // CORRECCIÓN: Contexto explícito y uso seguro de la clase de destino
-                    val intent = Intent(this@SeleccionAsistenciaActivity, Class.forName("com.example.asistecsr.ListaAsistenciasActivity"))
-                    intent.putExtra("EXTRA_CICLO", datos.first)
-                    intent.putExtra("EXTRA_TURNO", datos.second)
-                    startActivity(intent)
-                } catch (e: ClassNotFoundException) {
-                    Toast.makeText(this@SeleccionAsistenciaActivity, "Pantalla de asistencias en desarrollo.", Toast.LENGTH_SHORT).show()
-                }
+        // Configurar clics y filtros
+        configurarTarjetas()
+        
+        val listenerFiltros = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                aplicarFiltros(spinnerTurno.selectedItem.toString(), spinnerCiclo.selectedItem.toString())
             }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        spinnerTurno.onItemSelectedListener = listenerFiltros
+        spinnerCiclo.onItemSelectedListener = listenerFiltros
+
+        // Botón inferior: ACTUALIZAR CARPETA
+        findViewById<View>(R.id.btnActualizarCarpeta).setupClickAnimation {
+            Toast.makeText(this, "Sincronizando registros con la base de datos...", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun configurarTarjetas() {
+        mapeoTarjetas.forEach { (idCard, datos) ->
+            findViewById<CardView>(idCard)?.setupClickAnimation {
+                val intent = Intent(this, ListaAsistenciasActivity::class.java)
+                intent.putExtra("EXTRA_CICLO", datos.first)
+                intent.putExtra("EXTRA_TURNO", datos.second)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun aplicarFiltros(turno: String, ciclo: String) {
+        mapeoTarjetas.forEach { (idCard, datos) ->
+            val coincideTurno = turno == "TODOS LOS TURNOS" || datos.second == turno
+            val coincideCiclo = ciclo == "TODOS LOS CICLOS" || datos.first.toString() == ciclo
+            
+            findViewById<CardView>(idCard)?.visibility = if (coincideTurno && coincideCiclo) View.VISIBLE else View.GONE
         }
     }
 }

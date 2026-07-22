@@ -2,16 +2,24 @@ package com.example.asistecsr
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class RegisterAdminActivity : AppCompatActivity() {
 
@@ -26,30 +34,46 @@ class RegisterAdminActivity : AppCompatActivity() {
         val idTxtApellidos = findViewById<EditText>(R.id.txtRegisterAdminApellidos)
         val idTxtDni = findViewById<EditText>(R.id.txtRegisterAdminDni)
         val idTxtNumero = findViewById<EditText>(R.id.txtRegisterAdminNumero)
-        val idTxtCorreo = findViewById<EditText>(R.id.txtRegisterAdminCorreo)
+        
+        val idTxtCorreoPrefijo = findViewById<EditText>(R.id.txtRegisterAdminCorreoPrefijo)
+        val spinnerCorreoDominio = findViewById<Spinner>(R.id.spinnerRegisterAdminCorreoDominio)
+        
         val idTxtContrasena = findViewById<EditText>(R.id.txtRegisterAdminContrasena)
 
-        btnAtras.setOnClickListener {
+        // Configurar Spinner de Dominio
+        val adapterDominio = ArrayAdapter.createFromResource(
+            this,
+            R.array.dominios_correo,
+            R.layout.spinner_item_registro
+        )
+        adapterDominio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCorreoDominio.adapter = adapterDominio
+
+        btnAtras.setupClickAnimation {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        btnCrearCuenta.setOnClickListener {
+        btnCrearCuenta.setupClickAnimation {
             val nombreTxt = idTxtNombre.text.toString().trim()
             val apellidoTxt = idTxtApellidos.text.toString().trim()
             val dniTxt = idTxtDni.text.toString().trim()
             val numeroTxt = idTxtNumero.text.toString().trim()
-            val correoTxt = idTxtCorreo.text.toString().trim()
+            
+            val correoPrefijo = idTxtCorreoPrefijo.text.toString().trim()
+            val correoDominio = spinnerCorreoDominio.selectedItem.toString()
+            val correoTxt = "$correoPrefijo$correoDominio"
+            
             val contrasenaTxt = idTxtContrasena.text.toString().trim()
 
             if (nombreTxt.isEmpty() || apellidoTxt.isEmpty() || dniTxt.isEmpty() ||
-                numeroTxt.isEmpty() || correoTxt.isEmpty() || contrasenaTxt.isEmpty()) {
+                numeroTxt.isEmpty() || correoPrefijo.isEmpty() || contrasenaTxt.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                return@setupClickAnimation
             }
 
             if (contrasenaTxt.length < 6) {
                 Toast.makeText(this, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                return@setupClickAnimation
             }
 
             btnCrearCuenta.isEnabled = false
@@ -75,17 +99,26 @@ class RegisterAdminActivity : AppCompatActivity() {
                             correo = correoTxt
                         )
 
-                        // 2. Inserción con la sintaxis .from()
+                        // Inserción con la sintaxis .from()
                         SupabaseManager.client.from("Administrador").insert(nuevoAdmin)
 
                         Toast.makeText(this@RegisterAdminActivity, "¡Cuenta de Administrador creada!", Toast.LENGTH_SHORT).show()
 
-                        try {
-                            val intent = Intent(this@RegisterAdminActivity, Class.forName("com.example.asistecsr.PerfilAdminActivity"))
-                            startActivity(intent)
-                            finish()
-                        } catch (_: ClassNotFoundException) {
-                            Toast.makeText(this@RegisterAdminActivity, "Registro exitoso en Supabase.", Toast.LENGTH_LONG).show()
+                        val destino = "com.example.asistecsr.PerfilAdminActivity"
+                        
+                        // Lógica para guardar cuenta recién creada
+                        val sharedPref = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+                        val accountsJson = sharedPref.getString("saved_accounts_json", "[]") ?: "[]"
+                        val savedAccounts = try {
+                            Json.decodeFromString<List<AccountRecord>>(accountsJson)
+                        } catch (e: Exception) {
+                            emptyList()
+                        }
+
+                        if (savedAccounts.none { it.email == correoTxt }) {
+                            mostrarDialogoGuardarCuenta(correoTxt, contrasenaTxt, savedAccounts, sharedPref, destino)
+                        } else {
+                            irAlPerfil(destino)
                         }
 
                     } else {
@@ -102,6 +135,44 @@ class RegisterAdminActivity : AppCompatActivity() {
                     btnCrearCuenta.isEnabled = true
                 }
             }
+        }
+    }
+
+    private fun mostrarDialogoGuardarCuenta(
+        correo: String,
+        pass: String,
+        listaCuentas: List<AccountRecord>,
+        prefs: android.content.SharedPreferences,
+        destino: String
+    ) {
+        val bottomSheet = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.layout_bottom_sheet_save, null)
+
+        view.findViewById<AppCompatButton>(R.id.btnConfirmSave).setOnClickListener {
+            val nuevasCuentas = listaCuentas + AccountRecord(correo, pass)
+            prefs.edit {
+                putString("saved_accounts_json", Json.encodeToString(nuevasCuentas))
+            }
+            bottomSheet.dismiss()
+            irAlPerfil(destino)
+        }
+
+        view.findViewById<TextView>(R.id.btnCancelSave).setOnClickListener {
+            bottomSheet.dismiss()
+            irAlPerfil(destino)
+        }
+
+        bottomSheet.setCancelable(false)
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
+    }
+
+    private fun irAlPerfil(destino: String) {
+        try {
+            startActivity(Intent(this, Class.forName(destino)))
+            finish()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al abrir perfil.", Toast.LENGTH_SHORT).show()
         }
     }
 }

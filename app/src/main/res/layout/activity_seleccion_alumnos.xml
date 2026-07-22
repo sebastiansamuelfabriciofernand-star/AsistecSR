@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070714"
+    android:fillViewport="true"
+    tools:context=".SeleccionAlumnosActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnAtrasSeleccionAlumnos"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:rotation="180"
+            app:tint="#E65100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTituloSeleccionAlumnos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FILTRO DE ALUMNOS"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnAtrasSeleccionAlumnos"
+            app:layout_constraintStart_toEndOf="@id/btnAtrasSeleccionAlumnos"
+            app:layout_constraintTop_toTopOf="@id/btnAtrasSeleccionAlumnos" />
+
+        <TextView
+            android:id="@+id/txtSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="SELECCIONE UNA CARRERA"
+            android:textColor="#8A8A9E"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTituloSeleccionAlumnos" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCarrerasDinamicas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            app:layout_constraintTop_toBottomOf="@id/txtSubtitulo"
+            tools:listitem="@layout/item_carrera" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnVerTodosAlumnos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fondo_btn_profesor"
+            android:text="VER TODOS LOS ALUMNOS"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvCarrerasDinamicas" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

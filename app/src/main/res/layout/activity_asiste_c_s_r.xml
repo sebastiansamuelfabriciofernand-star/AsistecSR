@@ -5,28 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo_oscuro"
-    tools:context=".AsisteCSR">
+    android:background="@color/white"
+    tools:context="com.example.asistecsr.AsisteCSR">
 
     <ImageView
         android:id="@+id/logoDsi"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="193dp"
+        android:layout_height="182dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="Logo DSI"
         android:src="@drawable/logo_salazar_romero"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="ASISTENCIAS-DSI"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        android:layout_marginTop="12dp"
+        android:text="ASISTENCIAS-QR"
+        android:textColor="@color/black"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/logoDsi"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,17 +36,18 @@
         android:id="@+id/txtEstado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="CARGANDO SU REGISTRO"
-        android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/txtTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/containerBarras"
-        android:layout_width="240dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
@@ -54,31 +55,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <View
+        <FrameLayout
             android:id="@+id/barra1"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/fondo_barra"
-            android:foreground="@drawable/barra_progreso_clip"
-            android:foregroundTint="@color/verde_neon" />
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/fondo_barra_azul"
+            android:foreground="@drawable/barra_progreso_clip_azul" />
 
-        <View
+        <FrameLayout
             android:id="@+id/barra2"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/fondo_barra"
-            android:foreground="@drawable/barra_progreso_clip"
-            android:foregroundTint="@color/verde_neon" />
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/fondo_barra_azul"
+            android:foreground="@drawable/barra_progreso_clip_azul" />
 
-        <View
+        <FrameLayout
             android:id="@+id/barra3"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/fondo_barra"
-            android:foreground="@drawable/barra_progreso_clip"
-            android:foregroundTint="@color/verde_neon" />
+            android:layout_height="38dp"
+            android:background="@drawable/fondo_barra_azul"
+            android:foreground="@drawable/barra_progreso_clip_azul" />
     </LinearLayout>
 
     <TextView
@@ -86,9 +84,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="1%"
-        android:textColor="@color/naranja_porcentaje"
-        android:textSize="36sp"
+        android:text="19%"
+        android:textColor="@color/rojo_asiste"
+        android:textSize="44sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/containerBarras"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,24 +96,33 @@
         android:id="@+id/txtBienvenida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Bienvenido por favor espere"
-        android:textColor="@color/verde_neon"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/txtPorcentaje"
+        app:layout_constraintBottom_toTopOf="@id/containerFooter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
 
-    <ImageView
-        android:id="@+id/imgFooter"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="32dp"
-        android:contentDescription="Icono Grupo"
-        android:src="@drawable/grupo_id"
+    <FrameLayout
+        android:id="@+id/containerFooter"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/fondo_footer_azul"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgFooter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Icono Grupo"
+            android:src="@drawable/grupo_id" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

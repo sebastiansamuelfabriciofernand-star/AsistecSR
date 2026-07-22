@@ -7,5 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="fondo_oscuro">#0A0D14</color>      <color name="rojo_barra_oscuro">#220604</color> <color name="rojo_brillante">#A81E14</color>    <color name="naranja_porcentaje">#FF4500</color> <color name="verde_neon">#39FF14</color>
+    <color name="fondo_oscuro">#0A0D14</color>
+    <color name="rojo_barra_oscuro">#220604</color>
+    <color name="rojo_brillante">#A81E14</color>
+    <color name="naranja_porcentaje">#FF4500</color>
+    <color name="verde_neon">#39FF14</color>
+    <color name="azul_asiste">#00ADEF</color>
+    <color name="rojo_asiste">#E21E26</color>
 </resources>

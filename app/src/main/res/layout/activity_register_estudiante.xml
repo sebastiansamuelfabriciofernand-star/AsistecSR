@@ -22,13 +22,13 @@
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
             android:src="@android:drawable/ic_menu_revert"
-            android:contentDescription="Volver" />
+            android:contentDescription="@string/desc_volver" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="REGISTRO DE ESTUDIANTE"
+            android:text="@string/titulo_registro_estudiante"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -51,183 +51,197 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombres"
+                android:text="@string/label_nombres"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/txtRegisterNombre"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. Carlos Augusto"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_nombres"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="textPersonName"
+                android:autofillHints="name"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Campo: Apellidos -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apellidos"
+                android:text="@string/label_apellidos"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/txtRegisterApellidos"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. Ramos Flores"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_apellidos"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="textPersonName"
+                android:autofillHints="personFamilyName"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Campo: DNI -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Documento Nacional de Identidad (DNI)"
+                android:text="@string/label_dni"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/txtRegisterDni"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. 74859612"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_dni"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="number"
                 android:maxLength="8"
+                android:autofillHints="none"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Campo: Edad -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edad"
+                android:text="@string/label_edad"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/txtRegisterEdad"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. 19"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_edad"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="number"
                 android:maxLength="2"
+                android:autofillHints="none"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Campo: Ciclo -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ciclo Académico"
+                android:text="@string/label_ciclo_academico"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/txtRegisterCiclo"
+            <Spinner
+                android:id="@+id/spinnerRegisterCiclo"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Número del 1 al 10"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_spinner_moderno"
                 android:paddingHorizontal="16dp"
-                android:inputType="number"
-                android:maxLength="2"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown"/>
 
             <!-- Campo: Carrera -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Carrera Profesional"
+                android:text="@string/label_carrera_profesional"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/txtRegisterCarrera"
+            <Spinner
+                android:id="@+id/spinnerRegisterCarrera"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Ej. Ingeniería de Sistemas"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_spinner_moderno"
                 android:paddingHorizontal="16dp"
-                android:inputType="text"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown"/>
 
             <!-- Campo: Turno -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Turno"
+                android:text="@string/label_turno"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/txtRegisterTurno"
+            <Spinner
+                android:id="@+id/spinnerRegisterTurno"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Mañana / Tarde / Noche"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_spinner_moderno"
                 android:paddingHorizontal="16dp"
-                android:inputType="text"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown"/>
 
             <!-- Campo: Correo -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo Electrónico"
+                android:text="@string/label_correo_electronico"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
-            <EditText
-                android:id="@+id/txtRegisterCorreo"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="ejemplo@estudiante.edu.pe"
-                android:textColorHint="#4E4E61"
-                android:textColor="#FFFFFF"
-                android:paddingHorizontal="16dp"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp"/>
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/txtRegisterCorreoPrefijo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_edittext_moderno"
+                    android:hint="@string/hint_correo_prefijo"
+                    android:textColorHint="#4E4E61"
+                    android:textColor="#FFFFFF"
+                    android:paddingHorizontal="12dp"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:autofillHints="emailAddress"/>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
+                <Spinner
+                    android:id="@+id/spinnerRegisterCorreoDominio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="130dp"
+                    android:background="@drawable/fondo_spinner_moderno"
+                    android:paddingHorizontal="8dp"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
 
             <!-- Campo: Contraseña -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Contraseña de la Cuenta"
+                android:text="@string/label_contrasena_cuenta"
                 android:textColor="#8A8A9E"
                 android:textSize="14sp"
                 android:layout_marginBottom="6dp"/>
             <EditText
                 android:id="@+id/txtRegisterContrasena"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#1C1C2E"
-                android:hint="Mínimo 6 caracteres"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_min_caracteres"
                 android:textColorHint="#4E4E61"
                 android:textColor="#FFFFFF"
                 android:paddingHorizontal="16dp"
                 android:inputType="textPassword"
+                android:autofillHints="password"
                 android:layout_marginBottom="30dp"/>
 
             <!-- Botón de Registro -->
@@ -236,7 +250,7 @@
                 android:layout_width="240dp"
                 android:layout_height="50dp"
                 android:background="@drawable/fondo_btn_volver"
-                android:text="REGISTRAR ESTUDIANTE"
+                android:text="@string/btn_registrar_estudiante"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:layout_marginBottom="24dp"/>

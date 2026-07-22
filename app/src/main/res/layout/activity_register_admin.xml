@@ -1,125 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://tools.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#070714"
-    tools:context=".RegisterAdminActivity"
-    tools:ignore="HardcodedText,TextFields">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
 
-    <ImageView
-        android:id="@+id/btnAtrasRegisterAdmin"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:src="@android:drawable/ic_menu_revert"
-        android:rotation="180"
-        app:tint="#E65100"
-        android:contentDescription="Regresar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtTituloRegisterAdmin"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="REGISTRO DE ADMINISTRADOR"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/btnAtrasRegisterAdmin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAtrasRegisterAdmin" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp">
 
-    <LinearLayout
+        <ImageView
+            android:id="@+id/btnAtrasRegisterAdmin"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#D84337"
+            android:contentDescription="@string/desc_volver" />
+
+        <TextView
+            android:id="@+id/txtTituloHeaderAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/titulo_registro_admin"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="35dp" />
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginHorizontal="24dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/txtTituloRegisterAdmin"
-        app:layout_constraintBottom_toTopOf="@id/btnCrearCuentaAdmin">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <EditText
-            android:id="@+id/txtRegisterAdminNombre"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Nombres"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/txtRegisterAdminApellidos"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Apellidos"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_nombres"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/txtRegisterAdminNombre"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_nombres"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textPersonName"
+                android:autofillHints="name"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/txtRegisterAdminDni"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="DNI"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:inputType="number"
-            android:maxLength="8"
-            android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_apellidos"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/txtRegisterAdminApellidos"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_apellidos"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textPersonName"
+                android:autofillHints="personFamilyName"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/txtRegisterAdminNumero"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Número de Celular"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:inputType="phone"
-            android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_dni"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/txtRegisterAdminDni"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_dni"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="number"
+                android:maxLength="8"
+                android:autofillHints="none"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/txtRegisterAdminCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Correo Electrónico"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_numero_telefonico"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/txtRegisterAdminNumero"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_numero_telefonico"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="phone"
+                android:autofillHints="phoneNumber"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/txtRegisterAdminContrasena"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Contraseña"
-            android:textColorHint="#555565"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E65100"
-            android:inputType="textPassword"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_correo_electronico"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/txtRegisterAdminCorreoPrefijo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_edittext_moderno"
+                    android:hint="@string/hint_correo_prefijo"
+                    android:textColorHint="#4E4E61"
+                    android:textColor="#FFFFFF"
+                    android:paddingHorizontal="12dp"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:autofillHints="emailAddress"/>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
+                <Spinner
+                    android:id="@+id/spinnerRegisterAdminCorreoDominio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="130dp"
+                    android:background="@drawable/fondo_spinner_moderno"
+                    android:paddingHorizontal="8dp"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCrearCuentaAdmin"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/barra_progreso_clip"
-        android:backgroundTint="#E65100"
-        android:text="CREAR CUENTA"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_contrasena_cuenta"
+                android:textColor="#8A8A9E"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+            <EditText
+                android:id="@+id/txtRegisterAdminContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/fondo_edittext_moderno"
+                android:hint="@string/hint_min_caracteres"
+                android:textColorHint="#4E4E61"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                android:layout_marginBottom="30dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCrearCuentaAdmin"
+                android:layout_width="240dp"
+                android:layout_height="50dp"
+                android:background="@drawable/fondo_btn_volver"
+                android:text="@string/btn_crear_cuenta"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

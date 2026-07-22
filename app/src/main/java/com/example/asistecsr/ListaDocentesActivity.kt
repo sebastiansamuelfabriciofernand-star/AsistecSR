@@ -37,7 +37,7 @@ class ListaDocentesActivity : AppCompatActivity() {
         val carreraSeleccionada = intent.getStringExtra("CARRERA_SELECCIONADA") ?: "DOCENTES"
         txtTituloCarreraDinamico.text = carreraSeleccionada.uppercase()
 
-        btnAsistenciasTop.setOnClickListener {
+        btnAsistenciasTop.setupClickAnimation {
             // Intenta abrir ListaAlumnosActivity de forma segura
             try {
                 startActivity(Intent(this, ListaAlumnosActivity::class.java))
@@ -46,7 +46,7 @@ class ListaDocentesActivity : AppCompatActivity() {
             }
         }
 
-        btnAtras.setOnClickListener { finish() }
+        btnAtras.setupClickAnimation { finish() }
 
         cargarDocentesDesdeBaseDatos(carreraSeleccionada, txtTotalDocentes, txtActivos, txtInactivosVista)
     }
